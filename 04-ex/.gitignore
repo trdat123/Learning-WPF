@@ -351,3 +351,5 @@ MigrationBackup/
 
 04-generic-example.csproj
 04-generic-example.sln
+
+.gitignore
