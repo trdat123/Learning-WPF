@@ -1,18 +1,18 @@
-﻿<Window x:Class="WpfApplication1.Window1"
+﻿<Window x:Class="WpfApplication1.Views.CreateStudentView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApplication1"
+        xmlns:local="clr-namespace:WpfApplication1.Views"
         mc:Ignorable="d"
-        Title="Student Info Management - New Student" Height="400" Width="300" WindowStartupLocation="CenterScreen">
-    <StackPanel x:Name="userfill">
-        
+        Title="CreateStudentView" Height="420" Width="300">
+    <StackPanel>
+
         <!-- New Student text block -->
         <Border BorderBrush="Black" BorderThickness="0 0 0 1" Margin="5 5 5 9">
             <TextBlock Text="New Student" FontSize="18" Margin="5"/>
         </Border>
-        
+
         <!-- Id, First, Last, Birth -->
         <Grid>
             <Grid.ColumnDefinitions>
@@ -29,12 +29,12 @@
             <TextBlock Text="First Name *" Margin="5" Grid.Column="0" Grid.Row="1"/>
             <TextBlock Text="Last Name *" Margin="5" Grid.Column="0" Grid.Row="2"/>
             <TextBlock Text="Birthdate *" Margin="5" Grid.Column="0" Grid.Row="3"/>
-            <TextBox x:Name="idbox" Text="{Binding Path=StudentID, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Margin="5" Padding="3" Grid.Column="1" Grid.Row="0"/>
-            <TextBox x:Name="firstnamebox" Margin="5" Padding="3" Grid.Column="1" Grid.Row="1"/>
-            <TextBox x:Name="lastnamebox" Margin="5" Padding="3" Grid.Column="1" Grid.Row="2"/>
+            <TextBox x:Name="StudentID" Margin="5" Padding="3" Grid.Column="1" Grid.Row="0"/>
+            <TextBox x:Name="FirstName" Margin="5" Padding="3" Grid.Column="1" Grid.Row="1"/>
+            <TextBox x:Name="LastName" Margin="5" Padding="3" Grid.Column="1" Grid.Row="2"/>
             <DatePicker x:Name="birthdatebox" Margin="5" Padding="3" Grid.Column="3" Grid.Row="3"/>
         </Grid>
-        
+
         <!-- Gender -->
         <Grid>
             <Grid.ColumnDefinitions>
@@ -43,10 +43,10 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="Gender" Margin="5" Grid.Column="0"/>
-            <CheckBox Grid.Column="1">Nam</CheckBox>
-            <CheckBox Grid.Column="2">Nữ</CheckBox>
+            <RadioButton Margin="5" Grid.Column="1">Nam</RadioButton>
+            <RadioButton Margin="5" Grid.Column="2">Nữ</RadioButton>
         </Grid>
-        
+
         <!-- Address, Email, Class -->
         <Grid>
             <Grid.ColumnDefinitions>
@@ -77,8 +77,9 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button Content="View Transcript" Margin="5" Padding="3" Grid.Column="0"/>
-            <Button x:Name="save" Click="save_Click" Content="Save" Margin="5" Padding="5" Grid.Column="1"/>
-            <Button x:Name="cancel" Click="cancel_Click" Content="Cancel" Margin="5" Padding="5" Grid.Column="2"/>
+            <Button x:Name="SaveButton" Content="Save" Margin="5" Padding="5" Grid.Column="1"/>
+            <Button x:Name="CancelButton" Content="Cancel" Margin="5" Padding="5" Grid.Column="2"/>
+            <TextBox x:Name="MyProperty"/>
         </Grid>
     </StackPanel>
 </Window>
