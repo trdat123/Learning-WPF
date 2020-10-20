@@ -1,15 +1,9 @@
 ﻿using Caliburn.Micro;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WpfApplication1.Models;
-using WpfApplication1.Views;
 
 namespace WpfApplication1.ViewModels
 {
-     public class CreateStudentViewModel : Screen
+    public class CreateStudentViewModel : Screen
     {
         public CreateStudentViewModel()
         {
@@ -23,6 +17,9 @@ namespace WpfApplication1.ViewModels
             //MainWindow main = (MainWindow)Application.Current.MainWindow;
             //main.StudentDataGrid.Items.Add(students);
             //Close();       
+            MainViewModel main = new MainViewModel();
+            main.Students.Add(new Models.StudentModel());
+            TryClose();
         }
 
         public void CancelButton()

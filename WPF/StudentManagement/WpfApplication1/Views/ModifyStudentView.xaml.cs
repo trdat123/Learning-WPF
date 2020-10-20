@@ -15,15 +15,13 @@ using System.Windows.Shapes;
 namespace WpfApplication1.Views
 {
     /// <summary>
-    /// Interaction logic for ShellView.xaml
+    /// Interaction logic for ModifyStudentView.xaml
     /// </summary>
-    public partial class MainView : Window
+    public partial class ModifyStudentView : Window
     {
-        public MainView()
+        public ModifyStudentView()
         {
             InitializeComponent();
         }
-
-       
     }
 }

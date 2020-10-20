@@ -1,13 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Caliburn.Micro;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace WpfApplication1.Models
 {
-    public class StudentModel : Conductor<object>
+    [XmlRoot("dataset")]
+    public class Dataset
+    {
+        [XmlElement("Student")]
+        public List<StudentModel> Students { get; set; }
+
+        public static Dataset LoadFromFile(string fileName)
+        {
+            using (var stream = new FileStream(fileName, FileMode.Open))
+            {
+                var XML = new XmlSerializer(typeof(Dataset));
+                return (Dataset)XML.Deserialize(stream);
+            }
+        }
+    }
+
+    public class StudentModel
     {
         public int Id { get; set; }
 
@@ -26,6 +40,7 @@ namespace WpfApplication1.Models
         public string Class { get; set; }
 
         public List<Result> Exam { get; set; }
+
     }
 
     public class Result

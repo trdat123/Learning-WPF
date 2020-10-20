@@ -5,18 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApplication1.Views"
         mc:Ignorable="d"
-        Title="ShellView" Height="350" Width="535"
+        Title="ShellView" Height="390" Width="560"
         WindowStartupLocation="CenterScreen">
+    
     <Window.Resources>
         <XmlDataProvider x:Key="XmlData" Source="student_sample_data.xml"/>
     </Window.Resources>
+    
     <StackPanel>
         <!-- Menu -->
         <Border BorderBrush="Black" BorderThickness="1" Margin="3">
             <Menu>
                 <MenuItem Header="Student" Margin="3">
                     <MenuItem Header="Students List"></MenuItem>
-                    <MenuItem x:Name="LoadCreateStu" Header="Create new Student"></MenuItem>
+                    <MenuItem x:Name="CreateStuButton" Header="Create new Student"></MenuItem>
                     <MenuItem Header="Delete Student(s)"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="Class" Margin="3"></MenuItem>
@@ -38,13 +40,14 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBox Margin="3" Padding="3" Grid.Column="0"></TextBox>
-            <ComboBox Text="--Class--" IsEditable="True" IsReadOnly="True" Margin="3" Padding="3" Grid.Column="1"/>
+            <ComboBox Text="--Class--" Margin="3" Padding="3" Grid.Column="1" x:Name="Students" SelectedItem="{Binding Path=SelectedClass, Mode=OneWayToSource}" DisplayMemberPath="Class">
+            </ComboBox>
             <Button Content="Search" Margin="3" Padding="3" Grid.Column="2"></Button>
             <Button Content="Reset" Margin="3" Padding="3" Grid.Column="3"></Button>
         </Grid>
         
         <!-- Student table -->
-        <!--<ListView x:Name="Students" Padding="3">
+        <ListView ItemsSource="{Binding Path=Students}" Padding="3" Height="250">
             <ListView.View>
                 <GridView>
                     <GridViewColumn>
@@ -54,25 +57,34 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Student ID" DisplayMemberBinding="{Binding StudentID}" Width="auto" />
+                    <GridViewColumn Header="Student ID" DisplayMemberBinding="{Binding StudentId}" Width="auto" />
                     <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding FirstName}" Width="auto"/>
                     <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding LastName}" Width="auto"/>
-                    <GridViewColumn Header="CLass" DisplayMemberBinding="{Binding Class}" Width="auto"/>
-                    <GridViewColumn Header="E mail" DisplayMemberBinding="{Binding Email}" Width="auto"/>
+                    <GridViewColumn x:Name="SelectedClass" Header="Class" DisplayMemberBinding="{Binding Class}" Width="auto"/>
+                    <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="auto"/>
                 </GridView>
             </ListView.View>
-        </ListView>-->
+        </ListView>
+
+        <TextBlock x:Name="asd"></TextBlock>
         
-        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Source={StaticResource XmlData}, XPath=/    dataset/*}" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"    Height="200" Margin="3">
-            <DataGrid.Columns>
-                <DataGridCheckBoxColumn />
-                <DataGridTextColumn Header="ID" Binding="{Binding XPath=StudentId}"/>
-                <DataGridTextColumn Header="First" Binding="{Binding XPath=FirstName}"/>
-                <DataGridTextColumn Header="Last" Binding="{Binding XPath=LastName}"/>
-                <DataGridTextColumn Header="Class" Binding="{Binding XPath=Class}"/>
-                <DataGridTextColumn Header="Email" Binding="{Binding XPath=Email}"/>
+       <!-- List of students using XmlDataProvider -->
+       <!--<DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Source={StaticResource XmlData}, XPath=/dataset/*}" ScrollViewer.CanContentScroll="True" Height="220" Margin="3">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem x:Name="ModifyButton" Header="Modify this Student"/>
+                    <MenuItem Header="Delete this Student"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        <DataGrid.Columns>
+                <DataGridCheckBoxColumn Width="30"/>
+                <DataGridTextColumn x:Name="StudentI" Header="ID" Binding="{Binding XPath=StudentId, Mode=TwoWay}" Width="40"/>
+                <DataGridTextColumn x:Name="FirstNam" Header="First Name" Binding="{Binding XPath=FirstName, Mode=TwoWay}" Width="80"/>
+                <DataGridTextColumn x:Name="LastNam" Header="Last Name" Binding="{Binding XPath=LastName, Mode=TwoWay}" Width="80"/>
+                <DataGridTextColumn x:Name="Clas" Header="Class" Binding="{Binding XPath=Class, Mode=TwoWay}" Width="100"/>
+                <DataGridTextColumn x:Name="Emai" Header="Email" Binding="{Binding XPath=Email, Mode=TwoWay}" Width="*"/>
             </DataGrid.Columns>
-        </DataGrid>
+        </DataGrid>-->
         
     </StackPanel>
 </Window>
