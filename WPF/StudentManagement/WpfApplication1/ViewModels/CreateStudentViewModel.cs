@@ -18,8 +18,7 @@ namespace WpfApplication1.ViewModels
             //main.StudentDataGrid.Items.Add(students);
             //Close();       
             MainViewModel main = new MainViewModel();
-            main.Students.Add(new Models.StudentModel());
-            TryClose();
+            
         }
 
         public void CancelButton()

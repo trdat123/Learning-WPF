@@ -9,6 +9,7 @@
     
     <Window.Resources>
         <XmlDataProvider x:Key="XmlData" Source="student_sample_data.xml"/>
+        
     </Window.Resources>
     
     <StackPanel>
@@ -63,14 +64,15 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Address" Margin="5 5 5 5" Grid.Column="0" Grid.Row="0"/>
-            <TextBlock Text="Email" Margin="5 5 5 5" Grid.Column="0" Grid.Row="1"/>
-            <TextBlock Text="Class" Margin="5 5 5 5" Grid.Column="0" Grid.Row="2"/>
-            <TextBox x:Name="addressbox" Margin="5" Padding="3" Grid.Column="1" Grid.Row="0"/>
-            <TextBox x:Name="emailbox" Margin="5" Padding="3" Grid.Column="1" Grid.Row="1"/>
-            <ComboBox x:Name="classbox" Margin="5" Padding="3" Grid.Column="1" Grid.Row="2">
+            <TextBlock Text="Address" Margin="5" Grid.Column="0" Grid.Row="0"/>
+            <TextBlock Text="Email" Margin="5" Grid.Column="0" Grid.Row="1"/>
+            <TextBlock Text="Class" Margin="5" Grid.Column="0" Grid.Row="2"/>
+            <TextBox x:Name="Address" Margin="5" Padding="3" Grid.Column="1" Grid.Row="0"/>
+            <TextBox x:Name="Email" Text="{Binding Path=Email}" Margin="5" Padding="3" Grid.Column="1" Grid.Row="1"/>
+            <ComboBox x:Name="Students_Class" Margin="5" Padding="3" Grid.Column="1" Grid.Row="2">
                 <ComboBoxItem Content="18DTHQA1"/>
                 <ComboBoxItem Content="18DTHQA2"/>
+                <ComboBoxItem Content="18DTHQA3"/>
             </ComboBox>
         </Grid>
 
@@ -85,6 +87,7 @@
             <Button x:Name="SaveButton" Content="Save" Margin="5" Padding="5" Grid.Column="1"/>
             <Button x:Name="CancelButton" Content="Cancel" Margin="5" Padding="5" Grid.Column="2"/>
         </Grid>
+        
         
     </StackPanel>
 </Window>

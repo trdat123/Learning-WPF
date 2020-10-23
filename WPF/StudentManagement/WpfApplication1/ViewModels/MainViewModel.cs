@@ -38,12 +38,25 @@ namespace WpfApplication1.ViewModels
             manager.ShowWindow(new ModifyStudentViewModel());
         }
 
+        //Reset button
+        public void ClearCheck()
+        {
+           
+        }
+
+        //Command
+        public void displayInClassA1(object parameter)
+        {
+            List<StudentModel> ClassListA1 = new List<StudentModel>();
+            ClassListA1 = Students.Where(s => s.Class == "18DTHQA1").ToList();
+        }
+
         //constructor
         public MainViewModel()
         {
             DisplayName = "Students List";
-            Dataset aa = Dataset.LoadFromFile(@"C:\Users\Tr Dat\Desktop\WindowsProgrammingExcercises\WPF\StudentManagement\WpfApplication1\Views\student_sample_data.xml");
-            Students.AddRange(aa.Students);
+            Dataset dataSet = Dataset.LoadFromFile(@"C:\Users\Tr Dat\Desktop\WindowsProgrammingExcercises\WPF\StudentManagement\WpfApplication1\Models\student_sample_data.xml");
+            Students.AddRange(dataSet.Students);
         }
     }
 }
