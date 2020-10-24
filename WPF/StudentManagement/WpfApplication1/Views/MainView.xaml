@@ -39,7 +39,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBox Text="{Binding Path=SearchBar, UpdateSourceTrigger=PropertyChanged}" Margin="3" Padding="3" Grid.Column="0"></TextBox>
+            <TextBox Text="{Binding Path=SearchBox, UpdateSourceTrigger=PropertyChanged}" Margin="3" Padding="3" Grid.Column="0"></TextBox>
             <ComboBox x:Name="SelectedClass" Text="--Class--" Margin="3" Padding="3" Grid.Column="1">
                 <ComboBoxItem Content="18DTHQA1"/>
                 <ComboBoxItem Content="18DTHQA2"/>

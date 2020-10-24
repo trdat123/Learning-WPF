@@ -26,13 +26,13 @@ namespace WpfApplication1.ViewModels
             set { _selectedClass = value; NotifyOfPropertyChange(() => SelectedClass); }
         }
 
-        private string searchBar;
-        public string SearchBar
+        private string searchBox;
+        public string SearchBox
         {
-            get { return searchBar; }
+            get { return searchBox; }
             set {
-                searchBar = value;
-                NotifyOfPropertyChange(() => SearchBar);
+                searchBox = value;
+                NotifyOfPropertyChange(() => SearchBox);
                 NotifyOfPropertyChange(() => CanClearButton);
             }
         }
@@ -53,6 +53,16 @@ namespace WpfApplication1.ViewModels
 
 
         //Search button
+        private List<string> myItem;
+        
+        public IEnumerable<string> MyFilteredItem
+        {
+            get
+            {
+                if(SearchBox == null) return myItem
+            }
+        }
+
         public void Search()
         {
             
@@ -64,13 +74,13 @@ namespace WpfApplication1.ViewModels
         {
             get
             {
-                return !string.IsNullOrWhiteSpace(SearchBar);
+                return !string.IsNullOrWhiteSpace(SearchBox);
             }
         }
 
         public void ClearButton()
         {
-            SearchBar = "";
+            SearchBox = "";
         }
 
         //Command
