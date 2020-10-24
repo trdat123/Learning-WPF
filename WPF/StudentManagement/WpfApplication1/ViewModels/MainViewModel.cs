@@ -26,11 +26,24 @@ namespace WpfApplication1.ViewModels
             set { _selectedClass = value; NotifyOfPropertyChange(() => SelectedClass); }
         }
 
+        private string searchBar;
+        public string SearchBar
+        {
+            get { return searchBar; }
+            set {
+                searchBar = value;
+                NotifyOfPropertyChange(() => SearchBar);
+                NotifyOfPropertyChange(() => CanClearButton);
+            }
+        }
+
+
         //Load other window button
         IWindowManager manager = new WindowManager();
         public void CreateStuButton()
         {
-            manager.ShowWindow(new CreateStudentViewModel());
+            manager.ShowDialog(new CreateStudentViewModel());
+           
         }
 
         public void ModifyButton()
@@ -38,10 +51,26 @@ namespace WpfApplication1.ViewModels
             manager.ShowWindow(new ModifyStudentViewModel());
         }
 
-        //Reset button
-        public void ClearCheck()
+
+        //Search button
+        public void Search()
         {
-           
+            
+        }
+
+
+        //Reset button
+        public bool CanClearButton
+        {
+            get
+            {
+                return !string.IsNullOrWhiteSpace(SearchBar);
+            }
+        }
+
+        public void ClearButton()
+        {
+            SearchBar = "";
         }
 
         //Command
@@ -55,7 +84,7 @@ namespace WpfApplication1.ViewModels
         public MainViewModel()
         {
             DisplayName = "Students List";
-            Dataset dataSet = Dataset.LoadFromFile(@"C:\Users\Tr Dat\Desktop\WindowsProgrammingExcercises\WPF\StudentManagement\WpfApplication1\Models\student_sample_data.xml");
+            Dataset dataSet = Dataset.LoadFromFile("student_sample_data.xml");
             Students.AddRange(dataSet.Students);
         }
     }

@@ -23,6 +23,7 @@ namespace WpfApplication1.Models
 
     public class StudentModel
     {
+        public bool Checked { get; set; }
         public int Id { get; set; }
 
         public string FirstName { get; set; }
