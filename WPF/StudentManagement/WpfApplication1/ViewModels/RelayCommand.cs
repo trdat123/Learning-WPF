@@ -5,23 +5,26 @@ namespace WpfApplication1.ViewModels
 {
     public class RelayCommand : ICommand
     {
-        readonly Action<object> execute;
-        readonly Predicate<object> canexecute;
+        Action<object> execute;
+        Func<object, bool> canExecute;
 
-        public RelayCommand(Action<object> execute, Predicate<object> canexecute)
+        public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
         {
-            if (execute == null)
-            {
-                throw new NullReferenceException("execute");
-            }
-            canexecute = this.canexecute;
-            execute = this.execute;
+            this.execute = execute;
+            this.canExecute = canExecute;
         }
 
-        //public RelayCommand(Action<object> execute : this(execute, null))
-        //{
-
-        //}
+        public bool CanExecute(object parameter)
+        {
+            if (canExecute != null)
+            {
+                return canExecute(parameter);
+            }
+            else
+            {
+                return true;
+            }
+        }
 
         public event EventHandler CanExecuteChanged
         {
@@ -29,14 +32,9 @@ namespace WpfApplication1.ViewModels
             remove { CommandManager.RequerySuggested -= value; }
         }
 
-        public bool CanExecute(object parameter)
-        {
-            return canexecute == null ? true : canexecute(parameter);
-        }
-
         public void Execute(object parameter)
         {
-            execute.Invoke(parameter);
+            execute(parameter);
         }
     }
 }

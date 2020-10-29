@@ -3,29 +3,34 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Input;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using WpfApplication1.Models;
+using WpfApplication1.Service;
 
 namespace WpfApplication1.ViewModels
 {
     public class MainViewModel : Conductor<object>
     {
+        //constructor
+        public MainViewModel()
+        {
+            DisplayName = "Students List";
+            StudentService = new StudentService();
+            SearchCommand = new RelayCommand(Search);
+            StudentList = new BindableCollection<StudentModel>(StudentService.SearchStudent(new StudentSearchCriteria()));
+            ClassList = new BindableCollection<ClassModel>(StudentService.GetAllClasses());
+        }
+
         //properties declaration
-        private BindableCollection<StudentModel> _students = new BindableCollection<StudentModel>();
-        public BindableCollection<StudentModel> Students
-        {
-            get { return _students; }
-            set { _students = value; }
-        }
+        public IStudentService StudentService { get; set; }
+        public ICommand SearchCommand { get; set; }
+        public ICommand GetClassCommand { get; set; }
+        public BindableCollection<StudentModel> StudentList { get; set; }
+        public BindableCollection<ClassModel> ClassList { get; set; }
 
-        private StudentModel _selectedClass;
-        public StudentModel SelectedClass
-        {
-            get { return _selectedClass; }
-            set { _selectedClass = value; NotifyOfPropertyChange(() => SelectedClass); }
-        }
-
+        //Searchbox
         private string searchBox;
         public string SearchBox
         {
@@ -37,37 +42,24 @@ namespace WpfApplication1.ViewModels
             }
         }
 
-
-        //Load other window button
-        IWindowManager manager = new WindowManager();
-        public void CreateStuButton()
+        //Class combobox
+        private string _selectedClass;
+        public string SelectedClass
         {
-            manager.ShowDialog(new CreateStudentViewModel());
-           
+            get { return _selectedClass; }
+            set { _selectedClass = value; NotifyOfPropertyChange(() => SelectedClass); }
         }
-
-        public void ModifyButton()
-        {
-            manager.ShowWindow(new ModifyStudentViewModel());
-        }
-
 
         //Search button
-        private List<string> myItem;
-        
-        public IEnumerable<string> MyFilteredItem
+        public void Search(object o)
         {
-            get
+            StudentList.Clear();
+            var result = StudentService.SearchStudent(new StudentSearchCriteria { SearchText = SearchBox, ClassName = SelectedClass });
+            foreach (var item in result)
             {
-                if(SearchBox == null) return myItem
+                StudentList.Add(item);
             }
         }
-
-        public void Search()
-        {
-            
-        }
-
 
         //Reset button
         public bool CanClearButton
@@ -81,22 +73,29 @@ namespace WpfApplication1.ViewModels
         public void ClearButton()
         {
             SearchBox = "";
+            var resetStudentList = StudentService.SearchStudent(new StudentSearchCriteria { SearchText = "" });
+            StudentList.AddRange(resetStudentList);
         }
 
         //Command
-        public void displayInClassA1(object parameter)
+        //public void displayInClassA1(object parameter)
+        //{
+        //    List<StudentModel> ClassListA1 = new List<StudentModel>();
+        //    ClassListA1 = Students.Where(s => s.Class == "18DTHQA1").ToList();
+        //}
+
+        //Load other window button
+        IWindowManager manager = new WindowManager();
+        public void CreateStuButton()
         {
-            List<StudentModel> ClassListA1 = new List<StudentModel>();
-            ClassListA1 = Students.Where(s => s.Class == "18DTHQA1").ToList();
+            manager.ShowDialog(new CreateStudentViewModel());
         }
 
-        //constructor
-        public MainViewModel()
+        public void ModifyButton()
         {
-            DisplayName = "Students List";
-            Dataset dataSet = Dataset.LoadFromFile("student_sample_data.xml");
-            Students.AddRange(dataSet.Students);
+            manager.ShowWindow(new ModifyStudentViewModel());
         }
+
     }
 }
 

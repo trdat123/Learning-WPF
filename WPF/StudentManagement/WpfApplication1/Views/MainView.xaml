@@ -38,19 +38,21 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBox Text="{Binding Path=SearchBox, UpdateSourceTrigger=PropertyChanged}" Margin="3" Padding="3" Grid.Column="0"></TextBox>
-            <ComboBox x:Name="SelectedClass" Text="--Class--" Margin="3" Padding="3" Grid.Column="1">
-                <ComboBoxItem Content="18DTHQA1"/>
+            <ComboBox ItemsSource="{Binding ClassList}" SelectedItem="{Binding SelectedClass}" DisplayMemberPath="Name" Text="--Class--" Margin="3" Padding="3" Grid.Column="1">
+                <!--<ComboBoxItem Content="18DTHQA1"/>
                 <ComboBoxItem Content="18DTHQA2"/>
-                <ComboBoxItem Content="18DTHQA3"/>
+                <ComboBoxItem Content="18DTHQA3"/>-->
             </ComboBox>
-            <Button x:Name="Search" Content="Search" Margin="3" Padding="3" Grid.Column="2"></Button>
+            <Button Command="{Binding GetClassCommand}" Content="Get Class" Margin="3" Padding="3" Grid.Column="4"/>
+            <Button x:Name="Search" Command="{Binding SearchCommand}" Content="Search" Margin="3" Padding="3" Grid.Column="2"></Button>
             <Button x:Name="ClearButton" Content="Clear" Margin="3" Padding="3" Grid.Column="3"></Button>
         </Grid>
         
         <!-- Student table -->
-        <ListView ItemsSource="{Binding Path=Students}" Padding="3" Height="250">
+        <ListView ItemsSource="{Binding Path=StudentList}" Padding="3" Height="250">
             <ListView.View>
                 <GridView>
                     <GridViewColumn>

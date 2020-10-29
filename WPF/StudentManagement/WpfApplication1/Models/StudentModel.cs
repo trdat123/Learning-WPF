@@ -2,25 +2,10 @@
 using Caliburn.Micro;
 using System.IO;
 using System.Xml.Serialization;
+using System;
 
 namespace WpfApplication1.Models
 {
-    [XmlRoot("dataset")]
-    public class Dataset
-    {
-        [XmlElement("Student")]
-        public List<StudentModel> Students { get; set; }
-
-        public static Dataset LoadFromFile(string fileName)
-        {
-            using (var stream = new FileStream(fileName, FileMode.Open))
-            {
-                var XML = new XmlSerializer(typeof(Dataset));
-                return (Dataset)XML.Deserialize(stream);
-            }
-        }
-    }
-
     public class StudentModel
     {
         public bool Checked { get; set; }
