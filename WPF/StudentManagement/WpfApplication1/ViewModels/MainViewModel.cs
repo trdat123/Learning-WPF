@@ -20,7 +20,7 @@ namespace WpfApplication1.ViewModels
             StudentService = new StudentService();
             SearchCommand = new RelayCommand(Search);
             StudentList = new BindableCollection<StudentModel>(StudentService.SearchStudent(new StudentSearchCriteria()));
-            ClassList = new BindableCollection<ClassModel>(StudentService.GetAllClasses());
+            ClassList = new BindableCollection<string>(StudentService.GetAllClasses());
         }
 
         //properties declaration
@@ -28,7 +28,7 @@ namespace WpfApplication1.ViewModels
         public ICommand SearchCommand { get; set; }
         public ICommand GetClassCommand { get; set; }
         public BindableCollection<StudentModel> StudentList { get; set; }
-        public BindableCollection<ClassModel> ClassList { get; set; }
+        public BindableCollection<string> ClassList { get; set; }
 
         //Searchbox
         private string searchBox;
@@ -73,7 +73,8 @@ namespace WpfApplication1.ViewModels
         public void ClearButton()
         {
             SearchBox = "";
-            var resetStudentList = StudentService.SearchStudent(new StudentSearchCriteria { SearchText = "" });
+            SelectedClass = "";
+            var resetStudentList = StudentService.SearchStudent(new StudentSearchCriteria { SearchText = "", ClassName = "" });
             StudentList.AddRange(resetStudentList);
         }
 

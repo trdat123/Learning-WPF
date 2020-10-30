@@ -18,6 +18,6 @@ namespace _07_linq {
 
         public int StudentId { get; set; }
 
-        public List<Result> Exam { get; set; }
+        public List<result> exam { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace WpfApplication1.Service
     {
         List<StudentModel> SearchStudent(StudentSearchCriteria criteria);
 
-        List<ClassModel> GetAllClasses();
+        List<string> GetAllClasses();
 
         StudentModel Add(StudentModel student);
 

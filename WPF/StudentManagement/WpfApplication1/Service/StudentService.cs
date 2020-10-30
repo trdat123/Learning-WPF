@@ -33,10 +33,10 @@ namespace WpfApplication1.Service
         }
 
         //get all class
-        public List<ClassModel> GetAllClasses()
+        public List<string> GetAllClasses()
         {
-            List<ClassModel> aa = new List<ClassModel>();
-            aa = _data.Distinct().Select(s => new ClassModel { Name = s.Class }).ToList();
+            //List<ClassModel> aa = new List<ClassModel>();
+            var aa = _data.Select(s => s.Class).Distinct().ToList();
             return aa;
         }
 
@@ -49,13 +49,20 @@ namespace WpfApplication1.Service
         //search student
         public List<StudentModel> SearchStudent(StudentSearchCriteria criteria)
         {
-            return _data.Where(s => string.IsNullOrEmpty(criteria.SearchText) ||
-                s.FirstName.Contains(criteria.SearchText) ||
-                s.LastName.Contains(criteria.SearchText) ||
-                s.Email.Contains(criteria.SearchText) ||
-                s.StudentId.ToString().Contains(criteria.SearchText) ||
-                s.Class.Equals(criteria.ClassName)
-            ).ToList();
+            if (string.IsNullOrEmpty(criteria.SearchText))
+            {
+                return _data.Where(s => s.Class == criteria.ClassName).ToList();
+            }
+            else
+            {
+                return _data.Where(s => 
+                    s.Class == criteria.ClassName ||
+                    s.FirstName.Contains(criteria.SearchText) ||
+                    s.LastName.Contains(criteria.SearchText) ||
+                    s.Email.Contains(criteria.SearchText) ||
+                    s.StudentId.ToString().Contains(criteria.SearchText)
+                    ).ToList();
+            }
         }
 
         //update student

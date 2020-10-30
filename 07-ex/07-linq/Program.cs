@@ -21,16 +21,24 @@ namespace _07_ex
             SubjectLessThan5(data);
 
             // Statistic student by Gender
-            Console.WriteLine("---Statistic by gender---");
+            Console.WriteLine("\n---Statistic by gender---");
             StatisticByGender(data);
 
             // Statistic student by Class
-            Console.WriteLine("---Statistic by Class---");
+            Console.WriteLine("\n---Statistic by Class---");
             StatisticByClass(data);
+
+            // Statistic by city
+            Console.WriteLine("\n---Statistic by city---");
+            StatisticByCity(data);
 
             // Calculate GPA of each student
             Console.WriteLine("\n---GPA of each student---");
             CalculateGPA(data);
+
+            //Highest GPA
+            Console.WriteLine("\n---Student who has highest GPA---");
+            HighestGPA(data);
         }
 
         private static Dataset LoadDataFromXml()
@@ -57,6 +65,7 @@ namespace _07_ex
                 (k, v) => new { Gender = k, Number = v.Count() });
 
             ListData(genderData, g => $"{g.Gender}: {g.Number}");
+            Console.ReadLine();
         }
 
         private static void StatisticByClass(Dataset data)
@@ -65,27 +74,39 @@ namespace _07_ex
                 (k, v) => new { Class = k, Number = v.Count() });
 
             ListData(classData, g => $"{g.Class}: {g.Number}");
+            Console.ReadLine();
+        }
+
+        private static void StatisticByCity(Dataset data)
+        {
+            var cityData = data.Students.GroupBy(s => s.City, s => s.Id,
+                (k, v) => new { City = k, Number = v.Count() });
+
+            ListData(cityData, g => $"{g.City}: {g.Number}");
+            Console.ReadLine();
         }
 
         private static void CalculateGPA(Dataset data)
         {
-            // Prepare Result list
-            //List<Result> resultList = data.Students.SelectMany(s => s.Exam).ToList();
-            //resultList.GroupBy(r => r.StudentId, r => r.Score,
-            //    (studentId, listScore) => new { StudentId = studentId, Gpa = listScore.Average() });
-
             var gpaData = data.Students.Select(s => new {
                 Name = $"{s.FirstName} {s.LastName}",
-                //Gpa = s.Exam.Select(e => e.Score).Average()
-                Gpa = s.Exam.Average(e => e.Score)
+                Gpa = s.exam.Average(e => e.point)
             });
             ListData(gpaData, g => $"{g.Name}: {g.Gpa}");
+            Console.ReadLine();
         }
 
         private static void SubjectLessThan5(Dataset data)
         {
-            var repeatedStudents = data.Students.Where(x => x.Exam.Any(r => r.Score < 5));
+            var repeatedStudents = data.Students.Where(x => x.exam.Any(r => r.point < 5));
             ListData(repeatedStudents, s => $"{s.FirstName} {s.LastName}");
+            Console.ReadLine();
+        }
+
+        private static void HighestGPA(Dataset data)
+        {
+            var gpaData = data.Students.Select(s => new { Gpa = s.exam.Average(e => e.point) });
+            ListData(gpaData, g => $"{g.Gpa}");
             Console.ReadLine();
         }
     }

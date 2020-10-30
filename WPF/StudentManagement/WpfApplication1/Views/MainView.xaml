@@ -41,7 +41,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBox Text="{Binding Path=SearchBox, UpdateSourceTrigger=PropertyChanged}" Margin="3" Padding="3" Grid.Column="0"></TextBox>
-            <ComboBox ItemsSource="{Binding ClassList}" SelectedItem="{Binding SelectedClass}" DisplayMemberPath="Name" Text="--Class--" Margin="3" Padding="3" Grid.Column="1">
+            <ComboBox ItemsSource="{Binding ClassList}" SelectedItem="{Binding SelectedClass, Mode=OneWayToSource}"
+                       Margin="3" Padding="3" Grid.Column="1">
                 <!--<ComboBoxItem Content="18DTHQA1"/>
                 <ComboBoxItem Content="18DTHQA2"/>
                 <ComboBoxItem Content="18DTHQA3"/>-->
