@@ -1,0 +1,11 @@
+C:\Users\Tr Dat\Desktop\18DTHQA1\07-linq\07-linq\bin\Debug\07-linq.exe.config
+C:\Users\Tr Dat\Desktop\18DTHQA1\07-linq\07-linq\bin\Debug\07-linq.exe
+C:\Users\Tr Dat\Desktop\18DTHQA1\07-linq\07-linq\bin\Debug\07-linq.pdb
+C:\Users\Tr Dat\Desktop\18DTHQA1\07-linq\07-linq\obj\Debug\07-linq.exe
+C:\Users\Tr Dat\Desktop\18DTHQA1\07-linq\07-linq\obj\Debug\07-linq.pdb
+C:\Users\Tr Dat\Desktop\18DTHQA1\07-linq\07-linq\obj\Debug\07-linq.csprojResolveAssemblyReference.cache
+C:\Users\Tr Dat\Desktop\WindowsProgrammingExcercises\07-linq\07-linq\bin\Debug\07-linq.exe.config
+C:\Users\Tr Dat\Desktop\WindowsProgrammingExcercises\07-linq\07-linq\obj\Debug\07-linq.exe
+C:\Users\Tr Dat\Desktop\WindowsProgrammingExcercises\07-linq\07-linq\obj\Debug\07-linq.pdb
+C:\Users\Tr Dat\Desktop\WindowsProgrammingExcercises\07-linq\07-linq\bin\Debug\07-linq.exe
+C:\Users\Tr Dat\Desktop\WindowsProgrammingExcercises\07-linq\07-linq\bin\Debug\07-linq.pdb

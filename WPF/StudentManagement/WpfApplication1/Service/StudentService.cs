@@ -35,7 +35,9 @@ namespace WpfApplication1.Service
         //get all class
         public List<ClassModel> GetAllClasses()
         {
-            return _data.Distinct().Select(s => new ClassModel { Name = s.Class }).ToList();
+            List<ClassModel> aa = new List<ClassModel>();
+            aa = _data.Distinct().Select(s => new ClassModel { Name = s.Class }).ToList();
+            return aa;
         }
 
         //delete student
