@@ -29,7 +29,7 @@ namespace WpfApplication1.Service
         //add student to list
         public StudentModel Add(StudentModel student)
         {
-            throw new NotImplementedException();
+            return _data.Add(student);
         }
 
         //get all class
@@ -49,20 +49,20 @@ namespace WpfApplication1.Service
         //search student
         public List<StudentModel> SearchStudent(StudentSearchCriteria criteria)
         {
-            if (string.IsNullOrEmpty(criteria.SearchText))
-            {
-                return _data.Where(s => s.Class == criteria.ClassName).ToList();
-            }
-            else
-            {
-                return _data.Where(s => 
-                    s.Class == criteria.ClassName ||
-                    s.FirstName.Contains(criteria.SearchText) ||
-                    s.LastName.Contains(criteria.SearchText) ||
-                    s.Email.Contains(criteria.SearchText) ||
-                    s.StudentId.ToString().Contains(criteria.SearchText)
+            return _data.Where(s => 
+                        (
+                        string.IsNullOrEmpty(criteria.SearchText) ||
+                        s.FirstName.Contains(criteria.SearchText) ||
+                        s.LastName.Contains(criteria.SearchText) ||
+                        s.Email.Contains(criteria.SearchText) ||
+                        s.StudentId.ToString().Contains(criteria.SearchText)
+                        ) 
+                        && 
+                        (
+                        string.IsNullOrEmpty(criteria.ClassName) ||
+                        s.Class == criteria.ClassName
+                        )
                     ).ToList();
-            }
         }
 
         //update student
