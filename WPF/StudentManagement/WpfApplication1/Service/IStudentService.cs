@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using WpfApplication1.Models;
 
 namespace WpfApplication1.Service
@@ -13,7 +9,7 @@ namespace WpfApplication1.Service
 
         List<string> GetAllClasses();
 
-        StudentModel Add(StudentModel student);
+        List<StudentModel> Add(StudentModel student);
 
         StudentModel Update(StudentModel student);
 

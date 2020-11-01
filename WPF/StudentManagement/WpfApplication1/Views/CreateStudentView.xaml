@@ -35,10 +35,10 @@
             <TextBlock Text="First Name *" Margin="5" Grid.Column="0" Grid.Row="1"/>
             <TextBlock Text="Last Name *" Margin="5" Grid.Column="0" Grid.Row="2"/>
             <TextBlock Text="Birthdate *" Margin="5" Grid.Column="0" Grid.Row="3"/>
-            <TextBox x:Name="StudentId" Margin="5" Padding="3" Grid.Column="1" Grid.Row="0"/>
-            <TextBox x:Name="FirstName" Margin="5" Padding="3" Grid.Column="1" Grid.Row="1"/>
-            <TextBox x:Name="LastName" Margin="5" Padding="3" Grid.Column="1" Grid.Row="2"/>
-            <DatePicker x:Name="birthdatebox" Margin="5" Padding="3" Grid.Column="3" Grid.Row="3"/>
+            <TextBox Text="{Binding Path=StudentId, Mode=TwoWay}" Margin="5" Padding="3" Grid.Column="1" Grid.Row="0"/>
+            <TextBox Text="{Binding Path=FirstName}" Margin="5" Padding="3" Grid.Column="1" Grid.Row="1"/>
+            <TextBox Text="{Binding Path=LastName}" Margin="5" Padding="3" Grid.Column="1" Grid.Row="2"/>
+            <DatePicker Text="{Binding Path=Birthdate}" Margin="5" Padding="3" Grid.Column="3" Grid.Row="3"/>
         </Grid>
 
         <!-- Gender -->

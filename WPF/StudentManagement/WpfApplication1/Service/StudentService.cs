@@ -4,39 +4,61 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using WpfApplication1.Models;
+using Caliburn.Micro;
 
 namespace WpfApplication1.Service
 {
-    public class StudentService : IStudentService
+    public class StudentService : Screen, IStudentService
     {
         //get data
         private List<StudentModel> _data;
+
+        public List<StudentModel> data
+        {
+            get { return _data; }
+            set {
+                _data = value;
+                NotifyOfPropertyChange(() => data);
+            }
+        }
+
         public StudentService()
         {
-            _data = LoadFromFile().Students;
+            data = LoadFromFile().Students;
         }
 
         public static Dataset LoadFromFile()
         {
             XmlSerializer reader = new XmlSerializer(typeof(Dataset));
             StreamReader file = new StreamReader("student_sample_data.xml");
-
             Dataset data = (Dataset)reader.Deserialize(file);
             file.Close();
             return data;
         }
+        
+        public void Save()
+        {
+            StudentModel aa = new StudentModel();
+            using (var stream = new FileStream("student_sample_data.xml", FileMode.Append, FileAccess.Write))
+            {
+                var XML = new XmlSerializer(typeof(StudentModel));
+                XML.Serialize(stream, aa);
+            }
+        }
 
         //add student to list
-        public StudentModel Add(StudentModel student)
+        public List<StudentModel> Add(StudentModel student)
         {
-            return _data.Add(student);
+            data.Add(student);
+            //Save();
+            return data;
         }
 
         //get all class
         public List<string> GetAllClasses()
         {
             //List<ClassModel> aa = new List<ClassModel>();
-            var aa = _data.Select(s => s.Class).Distinct().ToList();
+            var aa = data.Select(s => s.Class).Distinct().ToList();
             return aa;
         }
 
@@ -49,7 +71,7 @@ namespace WpfApplication1.Service
         //search student
         public List<StudentModel> SearchStudent(StudentSearchCriteria criteria)
         {
-            return _data.Where(s => 
+            return data.Where(s => 
                         (
                         string.IsNullOrEmpty(criteria.SearchText) ||
                         s.FirstName.Contains(criteria.SearchText) ||

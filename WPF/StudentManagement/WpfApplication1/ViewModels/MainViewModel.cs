@@ -26,8 +26,15 @@ namespace WpfApplication1.ViewModels
         //properties declaration
         public IStudentService StudentService { get; set; }
         public ICommand SearchCommand { get; set; }
-        public ICommand GetClassCommand { get; set; }
-        public BindableCollection<StudentModel> StudentList { get; set; }
+
+        private BindableCollection<StudentModel> _studentList;
+
+        public BindableCollection<StudentModel> StudentList
+        {
+            get { return _studentList; }
+            set { _studentList = value; NotifyOfPropertyChange(() => StudentList); }
+        }
+
         public BindableCollection<string> ClassList { get; set; }
 
         //Searchbox
@@ -47,7 +54,11 @@ namespace WpfApplication1.ViewModels
         public string SelectedClass
         {
             get { return _selectedClass; }
-            set { _selectedClass = value; NotifyOfPropertyChange(() => SelectedClass); }
+            set {
+                _selectedClass = value;
+                NotifyOfPropertyChange(() => SelectedClass);
+                NotifyOfPropertyChange(() => CanClearButton);
+            }
         }
 
         //Search button
@@ -66,24 +77,18 @@ namespace WpfApplication1.ViewModels
         {
             get
             {
-                return !string.IsNullOrWhiteSpace(SearchBox);
+                return !string.IsNullOrWhiteSpace(SearchBox) || !string.IsNullOrWhiteSpace(SelectedClass);
             }
         }
 
         public void ClearButton()
         {
+            StudentList.Clear();
             SearchBox = "";
-            SelectedClass = "";
+            SelectedClass = null;
             var resetStudentList = StudentService.SearchStudent(new StudentSearchCriteria { SearchText = "", ClassName = "" });
             StudentList.AddRange(resetStudentList);
         }
-
-        //Command
-        //public void displayInClassA1(object parameter)
-        //{
-        //    List<StudentModel> ClassListA1 = new List<StudentModel>();
-        //    ClassListA1 = Students.Where(s => s.Class == "18DTHQA1").ToList();
-        //}
 
         //Load other window button
         IWindowManager manager = new WindowManager();

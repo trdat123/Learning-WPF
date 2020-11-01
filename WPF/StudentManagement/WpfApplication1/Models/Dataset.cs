@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace WpfApplication1.Models
 {
-    [XmlRoot("dataset")]
+    [XmlRoot("Dataset")]
     public class Dataset
     {
         [XmlElement("Student")]

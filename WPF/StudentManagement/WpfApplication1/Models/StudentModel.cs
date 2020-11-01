@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using Caliburn.Micro;
-using System.IO;
-using System.Xml.Serialization;
-using System;
+﻿using System;
+using System.Collections.Generic;
 
 namespace WpfApplication1.Models
 {
@@ -26,14 +23,16 @@ namespace WpfApplication1.Models
 
         public string Class { get; set; }
 
-        public List<Result> Exam { get; set; }
+        public DateTime Birthdate { get; set; }
+
+        public List<Result> exam { get; set; }
 
     }
 
     public class Result
     {
-        public string Subject { get; set; }
+        public string subject { get; set; }
 
-        public int Score { get; set; }
+        public int point { get; set; }
     }
 }
