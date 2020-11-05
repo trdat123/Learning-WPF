@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApplication1.Views"
         mc:Ignorable="d"
-        Title="CreateStudentView" Height="420" Width="300">
-    
+        Title="CreateStudentView" Height="420" Width="300"
+        ResizeMode="CanMinimize">
+
     <Window.Resources>
-        <XmlDataProvider x:Key="XmlData" Source="student_sample_data.xml"/>
-        
+        <converters:RadioToStringCoverter x:Key="cac" />
     </Window.Resources>
     
     <StackPanel>
@@ -35,10 +35,21 @@
             <TextBlock Text="First Name *" Margin="5" Grid.Column="0" Grid.Row="1"/>
             <TextBlock Text="Last Name *" Margin="5" Grid.Column="0" Grid.Row="2"/>
             <TextBlock Text="Birthdate *" Margin="5" Grid.Column="0" Grid.Row="3"/>
-            <TextBox Text="{Binding Path=StudentId, Mode=TwoWay}" Margin="5" Padding="3" Grid.Column="1" Grid.Row="0"/>
-            <TextBox Text="{Binding Path=FirstName}" Margin="5" Padding="3" Grid.Column="1" Grid.Row="1"/>
-            <TextBox Text="{Binding Path=LastName}" Margin="5" Padding="3" Grid.Column="1" Grid.Row="2"/>
-            <DatePicker Text="{Binding Path=Birthdate}" Margin="5" Padding="3" Grid.Column="3" Grid.Row="3"/>
+            <TextBox 
+                Text="{Binding Path=StudentId, ValidatesOnDataErrors=True,UpdateSourceTrigger=PropertyChanged}" 
+                ToolTip="{Binding ErrorCollection[StudentId]}"                     
+                Margin="5" Padding="3" Grid.Column="1" Grid.Row="0"/>
+            <TextBox 
+                Text="{Binding Path=FirstName, ValidatesOnDataErrors=True,UpdateSourceTrigger=PropertyChanged}" 
+                ToolTip="{Binding ErrorCollection[FirstName]}"
+                Margin="5" Padding="3" Grid.Column="1" Grid.Row="1"/>
+            <TextBox 
+                Text="{Binding Path=LastName, ValidatesOnDataErrors=True,UpdateSourceTrigger=PropertyChanged}" 
+                ToolTip="{Binding ErrorCollection[LastName]}" Margin="5" Padding="3" Grid.Column="1" Grid.Row="2"/>
+            <DatePicker 
+                Text="{Binding Path=BirthDate, ValidatesOnDataErrors=True,UpdateSourceTrigger=PropertyChanged}" 
+                ToolTip="{Binding ErrorCollection[BirthDate]}"
+                Margin="5" Padding="3" Grid.Column="3" Grid.Row="3"/>
         </Grid>
 
         <!-- Gender -->
@@ -49,8 +60,16 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="Gender" Margin="5" Grid.Column="0"/>
-            <RadioButton Margin="5" Grid.Column="1">Nam</RadioButton>
-            <RadioButton Margin="5" Grid.Column="2">Nữ</RadioButton>
+            <RadioButton 
+                GroupName="Gender"
+                IsChecked="{Binding Path=Gender, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource RadioToStringConverter}}" 
+                ToolTip="{Binding ErrorCollection[Gender]}"
+                Content="Male" Margin="5" Grid.Column="1" />
+            <RadioButton 
+                GroupName="Gender"
+                IsChecked="{Binding Path=Gender, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource RadioToStringConverter}}"
+                ToolTip="{Binding ErrorCollection[Gender]}"
+                Content="Female" Margin="5" Grid.Column="2" />
         </Grid>
 
         <!-- Address, Email, Class -->
@@ -64,15 +83,22 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Address" Margin="5" Grid.Column="0" Grid.Row="0"/>
+            <TextBlock Text="City" Margin="5" Grid.Column="0" Grid.Row="0"/>
             <TextBlock Text="Email" Margin="5" Grid.Column="0" Grid.Row="1"/>
             <TextBlock Text="Class" Margin="5" Grid.Column="0" Grid.Row="2"/>
-            <TextBox x:Name="Address" Margin="5" Padding="3" Grid.Column="1" Grid.Row="0"/>
-            <TextBox x:Name="Email" Text="{Binding Path=Email}" Margin="5" Padding="3" Grid.Column="1" Grid.Row="1"/>
-            <ComboBox x:Name="Students_Class" Margin="5" Padding="3" Grid.Column="1" Grid.Row="2">
-                <ComboBoxItem Content="18DTHQA1"/>
-                <ComboBoxItem Content="18DTHQA2"/>
-                <ComboBoxItem Content="18DTHQA3"/>
+            <TextBox 
+                Text="{Binding Path=City, ValidatesOnDataErrors=True,UpdateSourceTrigger=PropertyChanged}" 
+                ToolTip="{Binding ErrorCollection[City]}" 
+                Margin="5" Padding="3" Grid.Column="1" Grid.Row="0"/>
+            <TextBox 
+                Text="{Binding Path=Email, ValidatesOnDataErrors=True,UpdateSourceTrigger=PropertyChanged}" 
+                ToolTip="{Binding ErrorCollection[Email]}" 
+                Margin="5" Padding="3" Grid.Column="1" Grid.Row="1"/>
+            <ComboBox 
+                ItemsSource="{Binding ClassList}"
+                SelectedItem="{Binding Class, ValidatesOnDataErrors=True,UpdateSourceTrigger=PropertyChanged}" 
+                ToolTip="{Binding ErrorCollection[Class]}" 
+                Margin="5" Padding="3" Grid.Column="1" Grid.Row="2">
             </ComboBox>
         </Grid>
 
@@ -87,7 +113,6 @@
             <Button x:Name="SaveButton" Content="Save" Margin="5" Padding="5" Grid.Column="1"/>
             <Button x:Name="CancelButton" Content="Cancel" Margin="5" Padding="5" Grid.Column="2"/>
         </Grid>
-        
         
     </StackPanel>
 </Window>

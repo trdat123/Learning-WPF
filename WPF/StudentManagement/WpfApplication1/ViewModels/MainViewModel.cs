@@ -28,7 +28,6 @@ namespace WpfApplication1.ViewModels
         public ICommand SearchCommand { get; set; }
 
         private BindableCollection<StudentModel> _studentList;
-
         public BindableCollection<StudentModel> StudentList
         {
             get { return _studentList; }
@@ -36,6 +35,13 @@ namespace WpfApplication1.ViewModels
         }
 
         public BindableCollection<string> ClassList { get; set; }
+
+        private StudentModel _selectedStudent;
+        public StudentModel SelectedStudent
+        {
+            get { return _selectedStudent; }
+            set { _selectedStudent = value; NotifyOfPropertyChange(() => SelectedStudent); }
+        }
 
         //Searchbox
         private string searchBox;
@@ -66,10 +72,7 @@ namespace WpfApplication1.ViewModels
         {
             StudentList.Clear();
             var result = StudentService.SearchStudent(new StudentSearchCriteria { SearchText = SearchBox, ClassName = SelectedClass });
-            foreach (var item in result)
-            {
-                StudentList.Add(item);
-            }
+            StudentList.AddRange(result);
         }
 
         //Reset button
@@ -94,12 +97,24 @@ namespace WpfApplication1.ViewModels
         IWindowManager manager = new WindowManager();
         public void CreateStuButton()
         {
-            manager.ShowDialog(new CreateStudentViewModel());
+            var detail = new CreateStudentViewModel();
+            detail.StudentService = StudentService;
+            detail.ClassList = ClassList;
+            manager.ShowDialog(detail);
         }
 
         public void ModifyButton()
         {
-            manager.ShowWindow(new ModifyStudentViewModel());
+            var detail = new CreateStudentViewModel();
+            detail.StudentId = SelectedStudent.StudentId;
+            detail.FirstName = SelectedStudent.FirstName;
+            detail.LastName = SelectedStudent.LastName;
+            detail.BirthDate = SelectedStudent.Birthdate;
+            detail.Gender = SelectedStudent.Gender;
+            detail.City = SelectedStudent.City;
+            detail.Email = SelectedStudent.Email;
+            detail.Class = SelectedStudent.Class;
+            manager.ShowDialog(detail);
         }
 
     }

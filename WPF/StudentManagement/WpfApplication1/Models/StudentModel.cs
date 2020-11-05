@@ -19,7 +19,7 @@ namespace WpfApplication1.Models
 
         public string City { get; set; }
 
-        public int StudentId { get; set; }
+        public string StudentId { get; set; }
 
         public string Class { get; set; }
 

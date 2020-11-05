@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using WpfApplication1.Models;
 using Caliburn.Micro;
+using System.Xml;
 
 namespace WpfApplication1.Service
 {
@@ -35,31 +36,28 @@ namespace WpfApplication1.Service
             file.Close();
             return data;
         }
-        
-        public void Save()
-        {
-            StudentModel aa = new StudentModel();
-            using (var stream = new FileStream("student_sample_data.xml", FileMode.Append, FileAccess.Write))
-            {
-                var XML = new XmlSerializer(typeof(StudentModel));
-                XML.Serialize(stream, aa);
-            }
-        }
+
+        //public void Save()
+        //{
+        //    StudentModel aa = new StudentModel();
+        //    using (var stream = new FileStream("student_sample_data.xml", FileMode.Append, FileAccess.Write))
+        //    {
+        //        var XML = new XmlSerializer(typeof(Dataset));
+        //        XML.Serialize(stream, (Dataset));
+        //    }
+        //}
 
         //add student to list
         public List<StudentModel> Add(StudentModel student)
         {
             data.Add(student);
-            //Save();
             return data;
         }
 
         //get all class
         public List<string> GetAllClasses()
         {
-            //List<ClassModel> aa = new List<ClassModel>();
-            var aa = data.Select(s => s.Class).Distinct().ToList();
-            return aa;
+            return data.Select(s => s.Class).Distinct().ToList();
         }
 
         //delete student
