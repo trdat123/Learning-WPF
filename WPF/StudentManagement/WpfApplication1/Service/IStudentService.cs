@@ -13,6 +13,6 @@ namespace WpfApplication1.Service
 
         StudentModel Update(StudentModel student);
 
-        void Remove(int studentId);
+        void Remove(bool check);
     }
 }

@@ -4,12 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApplication1.Views"
+        xmlns:converters="clr-namespace:Gender"
         mc:Ignorable="d"
         Title="CreateStudentView" Height="420" Width="300"
         ResizeMode="CanMinimize">
 
     <Window.Resources>
-        <converters:RadioToStringCoverter x:Key="cac" />
+        <!--<converters:GenderConverter x:Key="cac" />-->
     </Window.Resources>
     
     <StackPanel>
@@ -62,12 +63,12 @@
             <TextBlock Text="Gender" Margin="5" Grid.Column="0"/>
             <RadioButton 
                 GroupName="Gender"
-                IsChecked="{Binding Path=Gender, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource RadioToStringConverter}}" 
+                IsChecked="{Binding Path=Gender, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
                 ToolTip="{Binding ErrorCollection[Gender]}"
                 Content="Male" Margin="5" Grid.Column="1" />
             <RadioButton 
                 GroupName="Gender"
-                IsChecked="{Binding Path=Gender, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource RadioToStringConverter}}"
+                IsChecked="{Binding Path=Gender, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                 ToolTip="{Binding ErrorCollection[Gender]}"
                 Content="Female" Margin="5" Grid.Column="2" />
         </Grid>

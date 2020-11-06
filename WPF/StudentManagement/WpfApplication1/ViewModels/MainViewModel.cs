@@ -67,6 +67,16 @@ namespace WpfApplication1.ViewModels
             }
         }
 
+        //Checkbox student
+        private bool _check;
+
+        public bool Check
+        {
+            get { return _check; }
+            set { _check = value; NotifyOfPropertyChange(() => Check); }
+        }
+
+
         //Search button
         public void Search(object o)
         {
@@ -117,6 +127,10 @@ namespace WpfApplication1.ViewModels
             manager.ShowDialog(detail);
         }
 
+        public void RemoveButton()
+        {
+            StudentService.Remove(Check);
+        }
     }
 }
 

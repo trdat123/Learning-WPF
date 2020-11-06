@@ -6,18 +6,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace WpfApplication1.ViewModels
+namespace Gender
 {
-    public class RadioToStringConverter : IValueConverter
+    public class GenderConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value.ToString() == (string)parameter;
+            return value.Equals(parameter);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return parameter;
+            return (bool)value ? parameter : Binding.DoNothing;
         }
     }
 }

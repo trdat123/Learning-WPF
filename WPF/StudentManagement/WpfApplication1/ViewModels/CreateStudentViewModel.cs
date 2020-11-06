@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Data;
 using WpfApplication1.Models;
 using WpfApplication1.Service;
+using System.Globalization;
 
 namespace WpfApplication1.ViewModels
 {
@@ -49,12 +51,20 @@ namespace WpfApplication1.ViewModels
             set { _birthDate = value; NotifyOfPropertyChange(() => BirthDate); }
         }
 
-        private bool _gender;
-        public bool Gender
+        private string _gender;
+        public string Gender
         {
             get { return _gender; }
             set { _gender = value; NotifyOfPropertyChange(() => Gender); }
         }
+
+        //public enum Gender
+        //{
+        //    Male,
+        //    Female
+        //}
+
+        //public Gender SelectedGender { get; set; }
 
         private string _city;
         public string City
@@ -156,8 +166,16 @@ namespace WpfApplication1.ViewModels
 
         public void SaveButton()
         {
-            StudentService.Add(new StudentModel { StudentId = StudentId, FirstName = FirstName, LastName = LastName, Birthdate = BirthDate, Gender = Gender.ToString(), City = City, Email = Email, Class = Class });
+            if (string.IsNullOrEmpty(StudentId))
+            {
+                StudentService.Add(new StudentModel { StudentId = StudentId, FirstName = FirstName, LastName = LastName, Birthdate = BirthDate, Gender = Gender.ToString(), City = City, Email = Email, Class = Class });
+            }
+            else
+            {
+                //StudentService.Update;
+            }
             MessageBox.Show("Student has been successfully saved!");
+
             TryClose();
         }
 
@@ -165,5 +183,6 @@ namespace WpfApplication1.ViewModels
         {
             TryClose();
         }
+
     }
 }

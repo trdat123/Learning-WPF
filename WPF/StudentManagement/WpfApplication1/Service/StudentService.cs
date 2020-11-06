@@ -61,9 +61,10 @@ namespace WpfApplication1.Service
         }
 
         //delete student
-        public void Remove(int studentId)
+        public void Remove(bool check)
         {
-            throw new NotImplementedException();
+            var selectedStudent = data.Where(s => s.Checked == check).ToList();
+            data.RemoveAll(selectedStudent);
         }
 
         //search student
@@ -88,6 +89,7 @@ namespace WpfApplication1.Service
         //update student
         public StudentModel Update(StudentModel student)
         {
+            data.ForEach(s => s.StudentId = student.StudentId);
             throw new NotImplementedException();
         }
     }

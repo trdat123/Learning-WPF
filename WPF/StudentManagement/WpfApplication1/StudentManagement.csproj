@@ -95,7 +95,7 @@
     <Compile Include="ViewModels\CreateStudentViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ModifyStudentViewModel.cs" />
-    <Compile Include="Views\RadioToStringConverter.cs" />
+    <Compile Include="Views\GenderConverter.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="Views\CreateStudentView.xaml.cs">
       <DependentUpon>CreateStudentView.xaml</DependentUpon>
