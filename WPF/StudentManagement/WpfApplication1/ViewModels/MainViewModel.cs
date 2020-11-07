@@ -40,7 +40,11 @@ namespace WpfApplication1.ViewModels
         public StudentModel SelectedStudent
         {
             get { return _selectedStudent; }
-            set { _selectedStudent = value; NotifyOfPropertyChange(() => SelectedStudent); }
+            set {
+                _selectedStudent = value;
+                NotifyOfPropertyChange(() => SelectedStudent);
+                NotifyOfPropertyChange(() => CanModifyButton);
+            }
         }
 
         //Searchbox
@@ -66,16 +70,6 @@ namespace WpfApplication1.ViewModels
                 NotifyOfPropertyChange(() => CanClearButton);
             }
         }
-
-        //Checkbox student
-        private bool _check;
-
-        public bool Check
-        {
-            get { return _check; }
-            set { _check = value; NotifyOfPropertyChange(() => Check); }
-        }
-
 
         //Search button
         public void Search(object o)
@@ -111,25 +105,44 @@ namespace WpfApplication1.ViewModels
             detail.StudentService = StudentService;
             detail.ClassList = ClassList;
             manager.ShowDialog(detail);
+
+            //call search again to reset studentlist
+            Search(StudentList);
+        }
+
+        //Update button can appear
+        public bool CanModifyButton
+        {
+            get
+            {
+                return SelectedStudent != null;
+            }
+            
         }
 
         public void ModifyButton()
         {
             var detail = new CreateStudentViewModel();
+            detail.SelectedStudent = SelectedStudent;
+            detail.ClassList = ClassList;
             detail.StudentId = SelectedStudent.StudentId;
             detail.FirstName = SelectedStudent.FirstName;
             detail.LastName = SelectedStudent.LastName;
             detail.BirthDate = SelectedStudent.Birthdate;
-            detail.Gender = SelectedStudent.Gender;
+            SelectedStudent.Gender = detail.Gender.ToString();
             detail.City = SelectedStudent.City;
             detail.Email = SelectedStudent.Email;
             detail.Class = SelectedStudent.Class;
             manager.ShowDialog(detail);
+
+            //call search again to reset studentlist
+            Search(StudentList);
         }
 
         public void RemoveButton()
         {
-            StudentService.Remove(Check);
+            StudentService.Remove();
+            Search(StudentList);
         }
     }
 }

@@ -31,7 +31,7 @@ namespace WpfApplication1.Service
         public static Dataset LoadFromFile()
         {
             XmlSerializer reader = new XmlSerializer(typeof(Dataset));
-            StreamReader file = new StreamReader("student_sample_data.xml");
+            StreamReader file = new StreamReader(@"C:\Users\PC\Desktop\WindowsProgrammingExcercises\WPF\StudentManagement\WpfApplication1\Models\student_sample_data.xml");
             Dataset data = (Dataset)reader.Deserialize(file);
             file.Close();
             return data;
@@ -61,10 +61,13 @@ namespace WpfApplication1.Service
         }
 
         //delete student
-        public void Remove(bool check)
+        public void Remove()
         {
-            var selectedStudent = data.Where(s => s.Checked == check).ToList();
-            data.RemoveAll(selectedStudent);
+            var selectedStudent = data.Where(s => s.Checked == true).ToList();
+            foreach (var item in selectedStudent)
+            {
+                data.Remove(item);
+            }
         }
 
         //search student

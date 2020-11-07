@@ -23,6 +23,15 @@ namespace WpfApplication1.ViewModels
         public IStudentService StudentService { get; set; }
         public BindableCollection<string> ClassList { get; set; }
 
+        private StudentModel _selectedStudent;
+
+        public StudentModel SelectedStudent
+        {
+            get { return _selectedStudent; }
+            set { _selectedStudent = value; NotifyOfPropertyChange(() => SelectedStudent); }
+        }
+
+
         private string _studentId;
         public string StudentId
         {
@@ -44,27 +53,19 @@ namespace WpfApplication1.ViewModels
             set { _lastName = value; NotifyOfPropertyChange(() => LastName); }
         }
 
-        private DateTime _birthDate;
+        private DateTime _birthDate = new DateTime(2000, 4, 16);
         public DateTime BirthDate
         {
             get { return _birthDate; }
             set { _birthDate = value; NotifyOfPropertyChange(() => BirthDate); }
         }
 
-        private string _gender;
-        public string Gender
+        private bool _gender;
+        public bool Gender
         {
             get { return _gender; }
             set { _gender = value; NotifyOfPropertyChange(() => Gender); }
         }
-
-        //public enum Gender
-        //{
-        //    Male,
-        //    Female
-        //}
-
-        //public Gender SelectedGender { get; set; }
 
         private string _city;
         public string City
@@ -88,7 +89,18 @@ namespace WpfApplication1.ViewModels
         }
 
         //Validation
-        public Dictionary<string, string> ErrorCollection { get; private set; } = new Dictionary<string, string>();
+        private Dictionary<string, string> _erorCollection = new Dictionary<string, string>();
+
+        public Dictionary<string, string> ErrorCollection 
+        {
+            get { return _erorCollection; }
+            set {
+                _erorCollection = value;
+                NotifyOfPropertyChange(() => ErrorCollection);
+                NotifyOfPropertyChange(() => CanSaveButton);
+            }
+        }
+
         public string Error
         {
             get
@@ -153,29 +165,48 @@ namespace WpfApplication1.ViewModels
                     ErrorCollection[name] = result;
                 else if (result != null)
                     ErrorCollection.Add(name, result);
-                NotifyOfPropertyChange(() => ErrorCollection);
+                else if (result == null)
+                    ErrorCollection.Clear();
                 return result;
             }
         }
 
         //buttons
-        public bool CanSaveButton()
+        public bool CanSaveButton
         {
-            return !string.IsNullOrEmpty(ErrorCollection.ToString());
+            get
+            {
+                return ErrorCollection.Count() == 0;
+            }
         }
 
         public void SaveButton()
         {
-            if (string.IsNullOrEmpty(StudentId))
+            if (SelectedStudent == null)
             {
-                StudentService.Add(new StudentModel { StudentId = StudentId, FirstName = FirstName, LastName = LastName, Birthdate = BirthDate, Gender = Gender.ToString(), City = City, Email = Email, Class = Class });
+                StudentService.Add(new StudentModel
+                    { StudentId = StudentId,
+                    FirstName = FirstName,
+                    LastName = LastName,
+                    Birthdate = BirthDate,
+                    Gender = Gender.ToString(),
+                    City = City,
+                    Email = Email,
+                    Class = Class }
+                );
             }
             else
             {
-                //StudentService.Update;
+                SelectedStudent.StudentId = StudentId;
+                SelectedStudent.FirstName = FirstName;
+                SelectedStudent.LastName = LastName;
+                SelectedStudent.Birthdate = BirthDate;
+                SelectedStudent.Gender = Gender.ToString();
+                SelectedStudent.City = City;
+                SelectedStudent.Email = Email;
+                SelectedStudent.Class = Class;
             }
             MessageBox.Show("Student has been successfully saved!");
-
             TryClose();
         }
 
@@ -183,6 +214,5 @@ namespace WpfApplication1.ViewModels
         {
             TryClose();
         }
-
     }
 }

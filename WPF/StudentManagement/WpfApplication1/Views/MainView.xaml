@@ -14,7 +14,7 @@
             <Menu>
                 <MenuItem x:Name="CreateStuButton" Header="Create new Student" Margin="5" />
                 <MenuItem x:Name="RemoveButton" Header="Delete Student(s)" Margin="5" />
-                <MenuItem x:Name="ModifyButton" Header="Modify" Margin="5" />
+                <MenuItem x:Name="ModifyButton" Header="Update this Student" Margin="5" />
             </Menu>
         </Border>
 
@@ -54,7 +54,7 @@
                     <GridViewColumn>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=Check}"/>
+                                <CheckBox IsChecked="{Binding Path=Checked, Mode=OneWayToSource}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

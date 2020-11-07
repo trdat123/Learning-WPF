@@ -4,13 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApplication1.Views"
-        xmlns:converters="clr-namespace:Gender"
+        xmlns:converters="clr-namespace:GenderConverter"
         mc:Ignorable="d"
         Title="CreateStudentView" Height="420" Width="300"
         ResizeMode="CanMinimize">
 
     <Window.Resources>
-        <!--<converters:GenderConverter x:Key="cac" />-->
+        <converters:GenderConverter x:Key="GenderConverter" />
     </Window.Resources>
     
     <StackPanel>
@@ -63,12 +63,20 @@
             <TextBlock Text="Gender" Margin="5" Grid.Column="0"/>
             <RadioButton 
                 GroupName="Gender"
-                IsChecked="{Binding Path=Gender, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+                IsChecked="{Binding Path=Gender,
+                    ValidatesOnDataErrors=True, 
+                    UpdateSourceTrigger=PropertyChanged, 
+                    Converter={StaticResource ResourceKey=GenderConverter}, 
+                    ConverterParameter=True}" 
                 ToolTip="{Binding ErrorCollection[Gender]}"
                 Content="Male" Margin="5" Grid.Column="1" />
             <RadioButton 
                 GroupName="Gender"
-                IsChecked="{Binding Path=Gender, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                IsChecked="{Binding Path=Gender, 
+                    ValidatesOnDataErrors=True, 
+                    UpdateSourceTrigger=PropertyChanged, 
+                    Converter={StaticResource ResourceKey=GenderConverter}, 
+                    ConverterParameter=False}"
                 ToolTip="{Binding ErrorCollection[Gender]}"
                 Content="Female" Margin="5" Grid.Column="2" />
         </Grid>
@@ -88,16 +96,16 @@
             <TextBlock Text="Email" Margin="5" Grid.Column="0" Grid.Row="1"/>
             <TextBlock Text="Class" Margin="5" Grid.Column="0" Grid.Row="2"/>
             <TextBox 
-                Text="{Binding Path=City, ValidatesOnDataErrors=True,UpdateSourceTrigger=PropertyChanged}" 
+                Text="{Binding Path=City, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
                 ToolTip="{Binding ErrorCollection[City]}" 
                 Margin="5" Padding="3" Grid.Column="1" Grid.Row="0"/>
             <TextBox 
-                Text="{Binding Path=Email, ValidatesOnDataErrors=True,UpdateSourceTrigger=PropertyChanged}" 
+                Text="{Binding Path=Email, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
                 ToolTip="{Binding ErrorCollection[Email]}" 
                 Margin="5" Padding="3" Grid.Column="1" Grid.Row="1"/>
             <ComboBox 
                 ItemsSource="{Binding ClassList}"
-                SelectedItem="{Binding Class, ValidatesOnDataErrors=True,UpdateSourceTrigger=PropertyChanged}" 
+                SelectedItem="{Binding Class, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
                 ToolTip="{Binding ErrorCollection[Class]}" 
                 Margin="5" Padding="3" Grid.Column="1" Grid.Row="2">
             </ComboBox>
