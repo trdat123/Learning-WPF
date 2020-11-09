@@ -31,7 +31,8 @@ namespace WpfApplication1.Service
         public static Dataset LoadFromFile()
         {
             XmlSerializer reader = new XmlSerializer(typeof(Dataset));
-            StreamReader file = new StreamReader(@"C:\Users\PC\Desktop\WindowsProgrammingExcercises\WPF\StudentManagement\WpfApplication1\Models\student_sample_data.xml");
+            var fileName = @"C:\Users\Tr Dat\Desktop\WindowsProgrammingExcercises\WPF\StudentManagement\WpfApplication1\Models\student_sample_data.xml";
+            StreamReader file = new StreamReader(fileName);
             Dataset data = (Dataset)reader.Deserialize(file);
             file.Close();
             return data;

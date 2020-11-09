@@ -8,7 +8,8 @@ namespace GenderConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((string)parameter == value.ToString());
+            //return ((string)parameter == value.ToString());
+                return (string)value == "Male";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

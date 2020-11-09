@@ -19,7 +19,7 @@ namespace WpfApplication1.ViewModels
             DisplayName = "Create New Student";
         }
 
-        //properties
+        #region Properties
         public IStudentService StudentService { get; set; }
         public BindableCollection<string> ClassList { get; set; }
 
@@ -53,7 +53,7 @@ namespace WpfApplication1.ViewModels
             set { _lastName = value; NotifyOfPropertyChange(() => LastName); }
         }
 
-        private DateTime _birthDate = new DateTime(2000, 4, 16);
+        private DateTime _birthDate = DateTime.Today;
         public DateTime BirthDate
         {
             get { return _birthDate; }
@@ -87,19 +87,10 @@ namespace WpfApplication1.ViewModels
             get { return _class; }
             set { _class = value; NotifyOfPropertyChange(() => Class); }
         }
+        #endregion Properties
 
-        //Validation
-        private Dictionary<string, string> _erorCollection = new Dictionary<string, string>();
-
-        public Dictionary<string, string> ErrorCollection 
-        {
-            get { return _erorCollection; }
-            set {
-                _erorCollection = value;
-                NotifyOfPropertyChange(() => ErrorCollection);
-                NotifyOfPropertyChange(() => CanSaveButton);
-            }
-        }
+        #region Validation
+        public Dictionary<string, string> ErrorCollection { get; set; } = new Dictionary<string, string>();
 
         public string Error
         {
@@ -113,76 +104,81 @@ namespace WpfApplication1.ViewModels
         {
             get
             {
-                string result = null;
+                string errorText = null; //a line of text that show when validate
                 switch (name)
                 {
                     case "StudentId":
                         if (string.IsNullOrWhiteSpace(StudentId))
-                            result = "Student ID cannot be empty";
+                            errorText = "Student ID cannot be empty";
                         else if (StudentId.ToString().Length > 10)
-                            result = "Student ID maximun length is 10 charaters";
-                        else if (StudentId.All(char.IsLetter))
-                            result = "Student ID cannot have letters";
+                            errorText = "Student ID maximun length is 10 charaters";
+                        else if (StudentId.Any(char.IsLetter))
+                            errorText = "Student ID cannot have letters";
                             break;
+
                     case "FirstName":
                         if (string.IsNullOrWhiteSpace(FirstName))
-                            result = "First Name cannot be empty";
+                            errorText = "First Name cannot be empty";
                         else if (FirstName.Length > 20)
-                            result = "First Name maximun length is 20 charaters";
+                            errorText = "First Name maximun length is 20 charaters";
                         break;
+
                     case "LastName":
                         if (string.IsNullOrWhiteSpace(LastName))
-                            result = "Last Name cannot be empty";
+                            errorText = "Last Name cannot be empty";
                         else if (LastName.Length > 20)
-                            result = "Last Name maximun length is 20 charaters";
+                            errorText = "Last Name maximun length is 20 charaters";
                         break;
+
                     case "BirthDate":
-                        if (string.IsNullOrWhiteSpace(BirthDate.ToString()))
-                            result = "Birth Date cannot be empty";
                         break;
+
                     case "Gender":
-                        if (string.IsNullOrWhiteSpace(Gender.ToString()))
-                            result = "Gender cannot be empty";
                         break;
+
                     case "City":
                         if (string.IsNullOrWhiteSpace(City))
-                            result = "City cannot be empty";
+                            errorText = "City cannot be empty";
                         else if (City.Length > 20)
-                            result = "City maximun length is 20 charaters";
+                            errorText = "City maximun length is 20 charaters";
                         break;
+
                     case "Email":
                         if (string.IsNullOrWhiteSpace(Email))
-                            result = "Email cannot be empty";
-                        else if (StudentId.ToString().Length > 30)
-                            result = "Email maximun length is 30 charaters";
+                            errorText = "Email cannot be empty";
+                        else if (Email.ToString().Length > 30)
+                            errorText = "Email maximun length is 30 charaters";
                         break;
+
                     case "Class":
                         if (string.IsNullOrWhiteSpace(Class))
-                            result = "Class cannot be empty";
+                            errorText = "Class cannot be empty";
                         break;
                 }
-                if (ErrorCollection.ContainsKey(name))
-                    ErrorCollection[name] = result;
-                else if (result != null)
-                    ErrorCollection.Add(name, result);
-                else if (result == null)
-                    ErrorCollection.Clear();
-                return result;
+                if (ErrorCollection.ContainsKey(name)) 
+                    ErrorCollection[name] = errorText;
+                else if (errorText != null)
+                    ErrorCollection.Add(name, errorText);
+                NotifyOfPropertyChange(() => ErrorCollection);
+                NotifyOfPropertyChange(() => CanSaveButton);
+                return errorText;
             }
         }
+        #endregion Validation
 
-        //buttons
+        #region Buttons
         public bool CanSaveButton
         {
             get
             {
-                return ErrorCollection.Count() == 0;
+                return ErrorCollection.All(s => s.Value == null);
+                //Save button will enable when all error text is empty
             }
         }
 
         public void SaveButton()
         {
-            if (SelectedStudent == null)
+            if (SelectedStudent == null) //save button will add student to studentlist
             {
                 StudentService.Add(new StudentModel
                     { StudentId = StudentId,
@@ -195,7 +191,7 @@ namespace WpfApplication1.ViewModels
                     Class = Class }
                 );
             }
-            else
+            else //save button will change data with selected student in mainviewmodel
             {
                 SelectedStudent.StudentId = StudentId;
                 SelectedStudent.FirstName = FirstName;
@@ -212,7 +208,16 @@ namespace WpfApplication1.ViewModels
 
         public void CancelButton()
         {
-            TryClose();
+            MessageBoxResult result = MessageBox.Show("Do you want to close?", "Confirmation", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+            switch (result)
+            {
+                case MessageBoxResult.OK:
+                    TryClose();
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+            }
         }
+        #endregion Button
     }
 }

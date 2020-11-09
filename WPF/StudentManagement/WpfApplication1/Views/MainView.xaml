@@ -39,7 +39,7 @@
                       SelectedItem="{Binding SelectedClass, UpdateSourceTrigger=PropertyChanged}" Margin="3" 
                       Padding="3" Grid.Column="1" />
             
-            <Button x:Name="Search" Command="{Binding SearchCommand}" 
+            <Button x:Name="SearchButton" Command="{Binding SearchCommand}" 
                     Content="Search" Margin="3" Padding="3" Grid.Column="2"></Button>
             
             <Button x:Name="ClearButton" Content="Clear" Margin="3" Padding="3" Grid.Column="3"></Button>
@@ -54,7 +54,7 @@
                     <GridViewColumn>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=Checked, Mode=OneWayToSource}"/>
+                                <CheckBox IsChecked="{Binding Checked, Mode=OneWayToSource}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

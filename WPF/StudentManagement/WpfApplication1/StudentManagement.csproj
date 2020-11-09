@@ -94,8 +94,8 @@
     <Compile Include="Service\StudentService.cs" />
     <Compile Include="ViewModels\CreateStudentViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\GenderConverter.cs" />
-    <Compile Include="ViewModels\RelayCommand.cs" />
+    <Compile Include="Service\GenderConverter.cs" />
+    <Compile Include="Service\RelayCommand.cs" />
     <Compile Include="Views\CreateStudentView.xaml.cs">
       <DependentUpon>CreateStudentView.xaml</DependentUpon>
     </Compile>

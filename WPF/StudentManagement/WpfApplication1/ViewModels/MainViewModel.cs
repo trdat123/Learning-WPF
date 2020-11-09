@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -18,12 +19,12 @@ namespace WpfApplication1.ViewModels
         {
             DisplayName = "Students List";
             StudentService = new StudentService();
-            SearchCommand = new RelayCommand(Search);
+            SearchCommand = new RelayCommand(SearchButton);
             StudentList = new BindableCollection<StudentModel>(StudentService.SearchStudent(new StudentSearchCriteria()));
             ClassList = new BindableCollection<string>(StudentService.GetAllClasses());
         }
 
-        //properties declaration
+        #region Properties
         public IStudentService StudentService { get; set; }
         public ICommand SearchCommand { get; set; }
 
@@ -31,7 +32,8 @@ namespace WpfApplication1.ViewModels
         public BindableCollection<StudentModel> StudentList
         {
             get { return _studentList; }
-            set { _studentList = value; NotifyOfPropertyChange(() => StudentList); }
+            set { _studentList = value; NotifyOfPropertyChange(() => StudentList);
+            }
         }
 
         public BindableCollection<string> ClassList { get; set; }
@@ -43,7 +45,19 @@ namespace WpfApplication1.ViewModels
             set {
                 _selectedStudent = value;
                 NotifyOfPropertyChange(() => SelectedStudent);
-                NotifyOfPropertyChange(() => CanModifyButton);
+            }
+        }
+
+        //Class combobox
+        private string _selectedClass;
+        public string SelectedClass
+        {
+            get { return _selectedClass; }
+            set
+            {
+                _selectedClass = value;
+                NotifyOfPropertyChange(() => SelectedClass);
+                NotifyOfPropertyChange(() => CanClearButton);
             }
         }
 
@@ -59,20 +73,11 @@ namespace WpfApplication1.ViewModels
             }
         }
 
-        //Class combobox
-        private string _selectedClass;
-        public string SelectedClass
-        {
-            get { return _selectedClass; }
-            set {
-                _selectedClass = value;
-                NotifyOfPropertyChange(() => SelectedClass);
-                NotifyOfPropertyChange(() => CanClearButton);
-            }
-        }
+        #endregion Properties
 
+        #region Button
         //Search button
-        public void Search(object o)
+        public void SearchButton(object o)
         {
             StudentList.Clear();
             var result = StudentService.SearchStudent(new StudentSearchCriteria { SearchText = SearchBox, ClassName = SelectedClass });
@@ -84,7 +89,9 @@ namespace WpfApplication1.ViewModels
         {
             get
             {
-                return !string.IsNullOrWhiteSpace(SearchBox) || !string.IsNullOrWhiteSpace(SelectedClass);
+                return !string.IsNullOrWhiteSpace(SearchBox) ||
+                    !string.IsNullOrWhiteSpace(SelectedClass) ||
+                    StudentList.Any(s => s.Checked == true);
             }
         }
 
@@ -93,57 +100,67 @@ namespace WpfApplication1.ViewModels
             StudentList.Clear();
             SearchBox = "";
             SelectedClass = null;
+            StudentList.Where(s => s.Checked == false);
             var resetStudentList = StudentService.SearchStudent(new StudentSearchCriteria { SearchText = "", ClassName = "" });
             StudentList.AddRange(resetStudentList);
         }
-
-        //Load other window button
+        
+        //Load "studentdetail window" button
         IWindowManager manager = new WindowManager();
         public void CreateStuButton()
         {
             var detail = new CreateStudentViewModel();
             detail.StudentService = StudentService;
             detail.ClassList = ClassList;
-            manager.ShowDialog(detail);
-
-            //call search again to reset studentlist
-            Search(StudentList);
+            manager.ShowDialog(detail);        
+            SearchButton(StudentList); //call search again to reset studentlist
         }
 
-        //Update button can appear
-        public bool CanModifyButton
-        {
-            get
-            {
-                return SelectedStudent != null;
-            }
-            
-        }
-
+        //update student button
         public void ModifyButton()
         {
-            var detail = new CreateStudentViewModel();
-            detail.SelectedStudent = SelectedStudent;
-            detail.ClassList = ClassList;
-            detail.StudentId = SelectedStudent.StudentId;
-            detail.FirstName = SelectedStudent.FirstName;
-            detail.LastName = SelectedStudent.LastName;
-            detail.BirthDate = SelectedStudent.Birthdate;
-            SelectedStudent.Gender = detail.Gender.ToString();
-            detail.City = SelectedStudent.City;
-            detail.Email = SelectedStudent.Email;
-            detail.Class = SelectedStudent.Class;
-            manager.ShowDialog(detail);
-
-            //call search again to reset studentlist
-            Search(StudentList);
+            if (SelectedStudent != null)
+            {
+                var detail = new CreateStudentViewModel();
+                detail.SelectedStudent = SelectedStudent;
+                detail.ClassList = ClassList;
+                detail.StudentId = SelectedStudent.StudentId;
+                detail.FirstName = SelectedStudent.FirstName;
+                detail.LastName = SelectedStudent.LastName;
+                detail.BirthDate = SelectedStudent.Birthdate;
+                SelectedStudent.Gender = detail.Gender.ToString();
+                detail.City = SelectedStudent.City;
+                detail.Email = SelectedStudent.Email;
+                detail.Class = SelectedStudent.Class;
+                manager.ShowDialog(detail);
+                SearchButton(StudentList); //call search again to reset studentlist
+            }
+            else
+            {
+                MessageBox.Show("Please select student to update", "Wrong input", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
+        //delete student button
         public void RemoveButton()
         {
-            StudentService.Remove();
-            Search(StudentList);
+            if (StudentList.Any(s => s.Checked == true))
+            {
+                MessageBoxResult result = MessageBox.Show("Are you sure you want to delete the students that you have selected?", "Warning", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                switch (result)
+                {
+                    case MessageBoxResult.OK:
+                        StudentService.Remove();
+                        SearchButton(StudentList); //call search to reset studentlist
+                        break;
+                    case MessageBoxResult.Cancel:
+                        break;
+                }
+            }
+            else
+                MessageBox.Show("Please select at least one student to delete", "Wrong input", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+        #endregion Button
     }
 }
 
