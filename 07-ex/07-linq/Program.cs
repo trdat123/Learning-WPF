@@ -16,29 +16,33 @@ namespace _07_ex
             //Print out students
             //ListData (data.Students, s => $"{s.FirstName} {s.LastName}");
 
-            // List students who must repeat subject: has a subject less than 5
-            Console.WriteLine("\n---Students who has a subject less than 5---");
-            SubjectLessThan5(data);
+            //// List students who must repeat subject: has a subject less than 5
+            //Console.WriteLine("\n---Students who has a subject less than 5---");
+            //SubjectLessThan5(data);
 
-            // Statistic student by Gender
-            Console.WriteLine("\n---Statistic by gender---");
-            StatisticByGender(data);
+            //// Statistic student by Gender
+            //Console.WriteLine("\n---Statistic by gender---");
+            //StatisticByGender(data);
 
-            // Statistic student by Class
-            Console.WriteLine("\n---Statistic by Class---");
-            StatisticByClass(data);
+            //// Statistic student by Class
+            //Console.WriteLine("\n---Statistic by Class---");
+            //StatisticByClass(data);
 
-            // Statistic by city
-            Console.WriteLine("\n---Statistic by city---");
-            StatisticByCity(data);
+            //// Statistic by city
+            //Console.WriteLine("\n---Statistic by city---");
+            //StatisticByCity(data);
 
-            // Calculate GPA of each student
-            Console.WriteLine("\n---GPA of each student---");
-            CalculateGPA(data);
+            //// Calculate GPA of each student
+            //Console.WriteLine("\n---GPA of each student---");
+            //CalculateGPA(data);
 
-            //Highest GPA
-            Console.WriteLine("\n---Student who has highest GPA---");
-            HighestGPA(data);
+            ////Highest GPA
+            //Console.WriteLine("\n---Student who has highest GPA---");
+            //HighestGPA(data);
+
+            //Highest score each subject
+            Console.WriteLine("\n---Highest score each subject---");
+            HighestScoreEach(data);
         }
 
         private static Dataset LoadDataFromXml()
@@ -107,6 +111,17 @@ namespace _07_ex
         {
             var gpaData = data.Students.Select(s => new { Gpa = s.exam.Average(e => e.point) });
             ListData(gpaData, g => $"{g.Gpa}");
+            Console.ReadLine();
+        }
+
+        private static void HighestScoreEach(Dataset data)
+        {
+            var result = data.Students.Select(s => new
+            {
+                Subject = $"{s.exam.Select(e => e.subject)}",
+                Name = $"{s.exam.Where(e => e.point == 10)}"
+            });
+            ListData(result, r => $"{r.Subject}: {r.Name}");
             Console.ReadLine();
         }
     }
