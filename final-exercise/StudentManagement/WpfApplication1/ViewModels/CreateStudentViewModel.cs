@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Data;
 using WpfApplication1.Models;
 using WpfApplication1.Service;
-using System.Globalization;
 
 namespace WpfApplication1.ViewModels
 {
@@ -60,8 +58,15 @@ namespace WpfApplication1.ViewModels
             set { _birthDate = value; NotifyOfPropertyChange(() => BirthDate); }
         }
 
-        private bool _gender;
-        public bool Gender
+        private bool _boolGender = true; //radiobutton will bind into this prop
+        public bool BoolGender
+        {
+            get { return _boolGender; }
+            set { _boolGender = value; NotifyOfPropertyChange(() => BoolGender); }
+        }
+
+        private string _gender;
+        public string Gender
         {
             get { return _gender; }
             set { _gender = value; NotifyOfPropertyChange(() => Gender); }
@@ -178,6 +183,7 @@ namespace WpfApplication1.ViewModels
 
         public void SaveButton()
         {
+            GenderConvert();
             if (SelectedStudent == null) //save button will add student to studentlist
             {
                 StudentService.Add(new StudentModel
@@ -185,7 +191,7 @@ namespace WpfApplication1.ViewModels
                     FirstName = FirstName,
                     LastName = LastName,
                     Birthdate = BirthDate,
-                    Gender = Gender.ToString(),
+                    Gender = Gender,
                     City = City,
                     Email = Email,
                     Class = Class }
@@ -197,7 +203,7 @@ namespace WpfApplication1.ViewModels
                 SelectedStudent.FirstName = FirstName;
                 SelectedStudent.LastName = LastName;
                 SelectedStudent.Birthdate = BirthDate;
-                SelectedStudent.Gender = Gender.ToString();
+                SelectedStudent.Gender = Gender;
                 SelectedStudent.City = City;
                 SelectedStudent.Email = Email;
                 SelectedStudent.Class = Class;
@@ -219,5 +225,15 @@ namespace WpfApplication1.ViewModels
             }
         }
         #endregion Button
+
+        public void GenderConvert()
+        {
+            if (BoolGender == true)
+                Gender = "Male";
+            else if (BoolGender == false)
+                Gender = "Female";
+            else
+                Gender = null;
+        }
     }
 }

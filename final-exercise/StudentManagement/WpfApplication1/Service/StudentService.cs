@@ -31,7 +31,7 @@ namespace WpfApplication1.Service
         public static Dataset LoadFromFile()
         {
             XmlSerializer reader = new XmlSerializer(typeof(Dataset));
-            var fileName = @"C:\Users\Tr Dat\Desktop\WindowsProgrammingExcercises\WPF\StudentManagement\WpfApplication1\Models\student_sample_data.xml";
+            var fileName = @"C:\Users\Tr Dat\Desktop\WindowsProgrammingExcercises\final-exercise\StudentManagement\WpfApplication1\Models\student_sample_data.xml";
             StreamReader file = new StreamReader(fileName);
             Dataset data = (Dataset)reader.Deserialize(file);
             file.Close();
@@ -88,13 +88,6 @@ namespace WpfApplication1.Service
                         s.Class == criteria.ClassName
                         )
                     ).ToList();
-        }
-
-        //update student
-        public StudentModel Update(StudentModel student)
-        {
-            data.ForEach(s => s.StudentId = student.StudentId);
-            throw new NotImplementedException();
         }
     }
 }

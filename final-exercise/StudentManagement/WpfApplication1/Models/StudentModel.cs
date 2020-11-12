@@ -26,7 +26,6 @@ namespace WpfApplication1.Models
         public DateTime Birthdate { get; set; }
 
         public List<Result> exam { get; set; }
-
     }
 
     public class Result

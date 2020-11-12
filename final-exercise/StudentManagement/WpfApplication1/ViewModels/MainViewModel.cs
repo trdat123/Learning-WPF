@@ -128,7 +128,11 @@ namespace WpfApplication1.ViewModels
                 detail.FirstName = SelectedStudent.FirstName;
                 detail.LastName = SelectedStudent.LastName;
                 detail.BirthDate = SelectedStudent.Birthdate;
-                SelectedStudent.Gender = detail.Gender.ToString();
+                detail.Gender = SelectedStudent.Gender;
+                if (detail.Gender == "Male")
+                    detail.BoolGender = true;
+                else if (detail.Gender == "Female")
+                    detail.BoolGender = false;
                 detail.City = SelectedStudent.City;
                 detail.Email = SelectedStudent.Email;
                 detail.Class = SelectedStudent.Class;

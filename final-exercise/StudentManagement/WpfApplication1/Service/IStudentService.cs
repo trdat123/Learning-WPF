@@ -11,8 +11,6 @@ namespace WpfApplication1.Service
 
         List<StudentModel> Add(StudentModel student);
 
-        StudentModel Update(StudentModel student);
-
         void Remove();
     }
 }

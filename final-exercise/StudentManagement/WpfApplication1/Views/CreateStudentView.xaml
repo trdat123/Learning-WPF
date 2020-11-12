@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApplication1.Views"
+        xmlns:local2="clr-namespace:WpfApplication1.ViewModels"
         xmlns:converters="clr-namespace:GenderConverter"
         mc:Ignorable="d"
         Title="CreateStudentView" Height="420" Width="300"
@@ -62,22 +63,12 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="Gender" Margin="5" Grid.Column="0"/>
-            <RadioButton 
-                GroupName="Gender"
-                IsChecked="{Binding Path=Gender,
-                    ValidatesOnDataErrors=True, 
-                    UpdateSourceTrigger=PropertyChanged, 
-                    Converter={StaticResource ResourceKey=GenderConverter}, 
-                    ConverterParameter=Male}" 
-                ToolTip="{Binding ErrorCollection[Gender]}"
+            <RadioButton
+                GroupName="a"
+                IsChecked="{Binding Path=BoolGender}" 
                 Content="Male" Margin="5" Grid.Column="1" />
-            <RadioButton 
-                GroupName="Gender"
-                IsChecked="{Binding Path=Gender, 
-                    ValidatesOnDataErrors=True, 
-                    UpdateSourceTrigger=PropertyChanged, 
-                    Converter={StaticResource ResourceKey=GenderConverter}, 
-                    ConverterParameter=Female}"
+            <RadioButton
+                GroupName="a"
                 ToolTip="{Binding ErrorCollection[Gender]}"
                 Content="Female" Margin="5" Grid.Column="2" />
         </Grid>
@@ -123,6 +114,7 @@
             <Button x:Name="SaveButton" Content="Save" Margin="5" Padding="5" Grid.Column="1"/>
             <Button x:Name="CancelButton" Content="Cancel" Margin="5" Padding="5" Grid.Column="2"/>
         </Grid>
-        
+
+        <RadioButton Name="Genderr"></RadioButton>
     </StackPanel>
 </Window>
