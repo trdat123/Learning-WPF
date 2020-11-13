@@ -4,21 +4,23 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApplication1.Views"
-        xmlns:local2="clr-namespace:WpfApplication1.ViewModels"
-        xmlns:converters="clr-namespace:GenderConverter"
         mc:Ignorable="d"
         Title="CreateStudentView" Height="420" Width="300"
         ResizeMode="CanMinimize">
 
     <Window.Resources>
-        <converters:GenderConverter x:Key="GenderConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="CreateStudentDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
     
     <StackPanel>
 
         <!-- New Student text block -->
-        <Border BorderBrush="Black" BorderThickness="0 0 0 1" Margin="5 5 5 9">
-            <TextBlock Text="New Student" FontSize="18" Margin="5"/>
+        <Border Style="{StaticResource underline}">
+            <TextBlock Style="{StaticResource title}" Text="{Binding Title}"/>
         </Border>
 
         <!-- Id, First, Last, Birth -->
@@ -33,26 +35,26 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Student ID *" Margin="5" Grid.Column="0" Grid.Row="0"/>
-            <TextBlock Text="First Name *" Margin="5" Grid.Column="0" Grid.Row="1"/>
-            <TextBlock Text="Last Name *" Margin="5" Grid.Column="0" Grid.Row="2"/>
-            <TextBlock Text="Birthdate *" Margin="5" Grid.Column="0" Grid.Row="3"/>
+            <TextBlock Style="{StaticResource label}" Text="Student ID *" Grid.Column="0" Grid.Row="0"/>
+            <TextBlock Style="{StaticResource label}" Text="First Name *" Grid.Column="0" Grid.Row="1"/>
+            <TextBlock Style="{StaticResource label}" Text="Last Name *" Grid.Column="0" Grid.Row="2"/>
+            <TextBlock Style="{StaticResource label}" Text="Birthdate *" Grid.Column="0" Grid.Row="3"/>
             <TextBox 
                 Text="{Binding Path=StudentId, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
                 ToolTip="{Binding ErrorCollection[StudentId]}"                     
-                Margin="5" Padding="3" Grid.Column="1" Grid.Row="0"/>
+                Grid.Column="1" Grid.Row="0"/>
             <TextBox 
                 Text="{Binding Path=FirstName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
                 ToolTip="{Binding ErrorCollection[FirstName]}"
-                Margin="5" Padding="3" Grid.Column="1" Grid.Row="1"/>
+                Grid.Column="1" Grid.Row="1"/>
             <TextBox 
                 Text="{Binding Path=LastName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
                 ToolTip="{Binding ErrorCollection[LastName]}" 
-                Margin="5" Padding="3" Grid.Column="1" Grid.Row="2"/>
+                Grid.Column="1" Grid.Row="2"/>
             <DatePicker 
                 Text="{Binding Path=BirthDate, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
                 ToolTip="{Binding ErrorCollection[BirthDate]}"
-                Margin="5" Padding="3" Grid.Column="3" Grid.Row="3"/>
+                Grid.Column="3" Grid.Row="3"/>
         </Grid>
 
         <!-- Gender -->
@@ -62,15 +64,16 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="Gender" Margin="5" Grid.Column="0"/>
+            <TextBlock Style="{StaticResource label}" Text="Gender *" Grid.Column="0"/>
             <RadioButton
-                GroupName="a"
+                GroupName="Gender"
                 IsChecked="{Binding Path=BoolGender}" 
-                Content="Male" Margin="5" Grid.Column="1" />
+                Content="Male" 
+                Grid.Column="1" />
             <RadioButton
-                GroupName="a"
-                ToolTip="{Binding ErrorCollection[Gender]}"
-                Content="Female" Margin="5" Grid.Column="2" />
+                GroupName="Gender"
+                Content="Female"
+                Grid.Column="2" />
         </Grid>
 
         <!-- Address, Email, Class -->
@@ -84,37 +87,35 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="City" Margin="5" Grid.Column="0" Grid.Row="0"/>
-            <TextBlock Text="Email" Margin="5" Grid.Column="0" Grid.Row="1"/>
-            <TextBlock Text="Class" Margin="5" Grid.Column="0" Grid.Row="2"/>
+            <TextBlock Style="{StaticResource label}" Text="City *" Grid.Column="0" Grid.Row="0"/>
+            <TextBlock Style="{StaticResource label}" Text="Email *" Grid.Column="0" Grid.Row="1"/>
+            <TextBlock Style="{StaticResource label}" Text="Class *" Grid.Column="0" Grid.Row="2"/>
             <TextBox 
                 Text="{Binding Path=City, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
                 ToolTip="{Binding ErrorCollection[City]}" 
-                Margin="5" Padding="3" Grid.Column="1" Grid.Row="0"/>
+                Grid.Column="1" Grid.Row="0"/>
             <TextBox 
                 Text="{Binding Path=Email, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
                 ToolTip="{Binding ErrorCollection[Email]}" 
-                Margin="5" Padding="3" Grid.Column="1" Grid.Row="1"/>
+                Grid.Column="1" Grid.Row="1"/>
             <ComboBox 
                 ItemsSource="{Binding ClassList}"
                 SelectedItem="{Binding Class, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
                 ToolTip="{Binding ErrorCollection[Class]}" 
-                Margin="5" Padding="3" Grid.Column="1" Grid.Row="2">
+                Grid.Column="1" Grid.Row="2">
             </ComboBox>
         </Grid>
 
         <!-- View, Save, Cancel button -->
-        <Grid Margin="5 9 5 5">
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1.5*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Content="View Transcript" Margin="5" Padding="3" Grid.Column="0"/>
-            <Button x:Name="SaveButton" Content="Save" Margin="5" Padding="5" Grid.Column="1"/>
-            <Button x:Name="CancelButton" Content="Cancel" Margin="5" Padding="5" Grid.Column="2"/>
+            <Button x:Name="SaveButton" Content="Save" Grid.Column="1"/>
+            <Button x:Name="CancelButton" Content="Cancel" Grid.Column="2"/>
         </Grid>
 
-        <RadioButton Name="Genderr"></RadioButton>
     </StackPanel>
 </Window>

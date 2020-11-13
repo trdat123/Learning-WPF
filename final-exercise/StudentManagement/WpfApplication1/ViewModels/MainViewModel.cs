@@ -110,6 +110,7 @@ namespace WpfApplication1.ViewModels
         public void CreateStuButton()
         {
             var detail = new CreateStudentViewModel();
+            detail.Title = "New Student";
             detail.StudentService = StudentService;
             detail.ClassList = ClassList;
             manager.ShowDialog(detail);        
@@ -122,17 +123,14 @@ namespace WpfApplication1.ViewModels
             if (SelectedStudent != null)
             {
                 var detail = new CreateStudentViewModel();
+                detail.Title = "Modify Student";
                 detail.SelectedStudent = SelectedStudent;
                 detail.ClassList = ClassList;
                 detail.StudentId = SelectedStudent.StudentId;
                 detail.FirstName = SelectedStudent.FirstName;
                 detail.LastName = SelectedStudent.LastName;
                 detail.BirthDate = SelectedStudent.Birthdate;
-                detail.Gender = SelectedStudent.Gender;
-                if (detail.Gender == "Male")
-                    detail.BoolGender = true;
-                else if (detail.Gender == "Female")
-                    detail.BoolGender = false;
+                detail.GenderConvert(SelectedStudent.Gender);
                 detail.City = SelectedStudent.City;
                 detail.Email = SelectedStudent.Email;
                 detail.Class = SelectedStudent.Class;

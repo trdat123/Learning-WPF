@@ -5,22 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApplication1.Views"
         mc:Ignorable="d"
-        Title="ShellView" Height="444" Width="800"
-        WindowStartupLocation="CenterScreen">
+        Title="ShellView" Height="460" Width="860"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize">
 
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="MainDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
     <StackPanel>
         <!-- Menu -->
-        <Border BorderBrush="Black" BorderThickness="1" Margin="3">
+        <Border Style="{StaticResource menuBorder}">
             <Menu>
-                <MenuItem x:Name="CreateStuButton" Header="Create new Student" Margin="5" />
-                <MenuItem x:Name="RemoveButton" Header="Delete Student(s)" Margin="5" />
-                <MenuItem x:Name="ModifyButton" Header="Update this Student" Margin="5" />
+                <MenuItem x:Name="CreateStuButton" Header="Create new Student" />
+                <MenuItem x:Name="RemoveButton" Header="Delete Student(s)" />
+                <MenuItem x:Name="ModifyButton" Header="Update this Student" />
             </Menu>
         </Border>
 
         <!-- Students List text block -->
-        <Border BorderBrush="Black" BorderThickness="0 0 0 1" Margin="3">
-            <TextBlock Text="Students List" FontSize="18" Margin="3"/>
+        <Border Style="{StaticResource underline}">
+            <TextBlock Style="{StaticResource title}" Text="Students List" />
         </Border>
 
         <!-- Searh and Reset bar -->
@@ -32,23 +41,23 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             
-            <TextBox Text="{Binding Path=SearchBox, UpdateSourceTrigger=PropertyChanged}" 
-                     Margin="3" Padding="3" Grid.Column="0"></TextBox>
+            <TextBox Text="{Binding Path=SearchBox, UpdateSourceTrigger=PropertyChanged}"
+                     Grid.Column="0"></TextBox>
             
             <ComboBox ItemsSource="{Binding ClassList}" 
-                      SelectedItem="{Binding SelectedClass, UpdateSourceTrigger=PropertyChanged}" Margin="3" 
-                      Padding="3" Grid.Column="1" />
+                      SelectedItem="{Binding SelectedClass, UpdateSourceTrigger=PropertyChanged}"
+                      Grid.Column="1" />
             
             <Button x:Name="SearchButton" Command="{Binding SearchCommand}" 
-                    Content="Search" Margin="3" Padding="3" Grid.Column="2"></Button>
+                    Content="Search"
+                    Grid.Column="2"></Button>
             
-            <Button x:Name="ClearButton" Content="Clear" Margin="3" Padding="3" Grid.Column="3"></Button>
+            <Button x:Name="ClearButton" Content="Clear" Grid.Column="3"></Button>
         </Grid>
 
         <!-- Student table -->
         <ListView ItemsSource="{Binding Path=StudentList, UpdateSourceTrigger=PropertyChanged}" 
-                  SelectedItem="{Binding Path=SelectedStudent}"
-                  Margin="3" Padding="3" Height="300">
+                  SelectedItem="{Binding Path=SelectedStudent}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn>
@@ -61,17 +70,17 @@
 
                     <GridViewColumn Header="Student ID" DisplayMemberBinding="{Binding StudentId}" Width="80" />
                     
-                    <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding FirstName}" Width="80" />
+                    <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding FirstName}" Width="100" />
                     
-                    <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding LastName}" Width="80" />
+                    <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding LastName}" Width="100" />
                     
-                    <GridViewColumn Header="Gender" DisplayMemberBinding="{Binding Gender}" Width="80" />
+                    <GridViewColumn Header="Gender" DisplayMemberBinding="{Binding Gender}" Width="70" />
                     
-                    <GridViewColumn Header="City" DisplayMemberBinding="{Binding City}" Width="100" />
+                    <GridViewColumn Header="City" DisplayMemberBinding="{Binding City}" Width="130" />
                     
                     <GridViewColumn Header="Class" DisplayMemberBinding="{Binding Class}" Width="80" />
                     
-                    <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="200" />
+                    <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="220" />
                 </GridView>
             </ListView.View>
         </ListView>

@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
 using System.Windows;
 using WpfApplication1.Models;
 using WpfApplication1.Service;
@@ -14,7 +16,7 @@ namespace WpfApplication1.ViewModels
         //constructor
         public CreateStudentViewModel()
         {
-            DisplayName = "Create New Student";
+            DisplayName = "Student Detail";
         }
 
         #region Properties
@@ -22,13 +24,18 @@ namespace WpfApplication1.ViewModels
         public BindableCollection<string> ClassList { get; set; }
 
         private StudentModel _selectedStudent;
-
         public StudentModel SelectedStudent
         {
             get { return _selectedStudent; }
             set { _selectedStudent = value; NotifyOfPropertyChange(() => SelectedStudent); }
         }
 
+        private string _title;
+        public string Title
+        {
+            get { return _title; }
+            set { _title = value; NotifyOfPropertyChange(() => Title); }
+        }
 
         private string _studentId;
         public string StudentId
@@ -58,18 +65,11 @@ namespace WpfApplication1.ViewModels
             set { _birthDate = value; NotifyOfPropertyChange(() => BirthDate); }
         }
 
-        private bool _boolGender = true; //radiobutton will bind into this prop
+        private bool _boolGender = true;
         public bool BoolGender
         {
             get { return _boolGender; }
             set { _boolGender = value; NotifyOfPropertyChange(() => BoolGender); }
-        }
-
-        private string _gender;
-        public string Gender
-        {
-            get { return _gender; }
-            set { _gender = value; NotifyOfPropertyChange(() => Gender); }
         }
 
         private string _city;
@@ -117,8 +117,8 @@ namespace WpfApplication1.ViewModels
                             errorText = "Student ID cannot be empty";
                         else if (StudentId.ToString().Length > 10)
                             errorText = "Student ID maximun length is 10 charaters";
-                        else if (StudentId.Any(char.IsLetter))
-                            errorText = "Student ID cannot have letters";
+                        else if (!Regex.Match(StudentId, @"^[0-9]+$").Success)
+                            errorText = "Invalid Student ID";
                             break;
 
                     case "FirstName":
@@ -126,6 +126,8 @@ namespace WpfApplication1.ViewModels
                             errorText = "First Name cannot be empty";
                         else if (FirstName.Length > 20)
                             errorText = "First Name maximun length is 20 charaters";
+                        else if (!Regex.Match(FirstName, @"^[a-zA-Z]+$").Success)
+                            errorText = "Invalid First Name";
                         break;
 
                     case "LastName":
@@ -133,6 +135,8 @@ namespace WpfApplication1.ViewModels
                             errorText = "Last Name cannot be empty";
                         else if (LastName.Length > 20)
                             errorText = "Last Name maximun length is 20 charaters";
+                        else if (!Regex.Match(LastName, @"^[a-zA-Z]+$").Success)
+                            errorText = "Invalid Last Name";
                         break;
 
                     case "BirthDate":
@@ -146,11 +150,16 @@ namespace WpfApplication1.ViewModels
                             errorText = "City cannot be empty";
                         else if (City.Length > 20)
                             errorText = "City maximun length is 20 charaters";
+                        else if (!Regex.Match(City, @"^[a-zA-Z]+$").Success)
+                            errorText = "Invalid City";
                         break;
 
                     case "Email":
+                        Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
                         if (string.IsNullOrWhiteSpace(Email))
                             errorText = "Email cannot be empty";
+                        else if (regex.IsMatch(Email))
+                            errorText = "Email is invalid";
                         else if (Email.ToString().Length > 30)
                             errorText = "Email maximun length is 30 charaters";
                         break;
@@ -183,7 +192,6 @@ namespace WpfApplication1.ViewModels
 
         public void SaveButton()
         {
-            GenderConvert();
             if (SelectedStudent == null) //save button will add student to studentlist
             {
                 StudentService.Add(new StudentModel
@@ -191,7 +199,7 @@ namespace WpfApplication1.ViewModels
                     FirstName = FirstName,
                     LastName = LastName,
                     Birthdate = BirthDate,
-                    Gender = Gender,
+                    Gender = GetGender(BoolGender),
                     City = City,
                     Email = Email,
                     Class = Class }
@@ -203,7 +211,7 @@ namespace WpfApplication1.ViewModels
                 SelectedStudent.FirstName = FirstName;
                 SelectedStudent.LastName = LastName;
                 SelectedStudent.Birthdate = BirthDate;
-                SelectedStudent.Gender = Gender;
+                SelectedStudent.Gender = GetGender(BoolGender);
                 SelectedStudent.City = City;
                 SelectedStudent.Email = Email;
                 SelectedStudent.Class = Class;
@@ -226,14 +234,22 @@ namespace WpfApplication1.ViewModels
         }
         #endregion Button
 
-        public void GenderConvert()
+        #region Gender solving
+        public string GetGender(bool Bool)
         {
-            if (BoolGender == true)
-                Gender = "Male";
-            else if (BoolGender == false)
-                Gender = "Female";
+            if (Bool)
+                return "Male";
             else
-                Gender = null;
+                return "Female";
         }
+
+        public void GenderConvert(string String)
+        {
+            if (String == "Male")
+                BoolGender = true;
+            else
+                BoolGender = false;
+        }
+        #endregion
     }
 }
