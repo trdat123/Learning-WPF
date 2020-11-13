@@ -155,10 +155,10 @@ namespace WpfApplication1.ViewModels
                         break;
 
                     case "Email":
-                        Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+                        var regex = @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z";
                         if (string.IsNullOrWhiteSpace(Email))
                             errorText = "Email cannot be empty";
-                        else if (regex.IsMatch(Email))
+                        else if (!Regex.Match(Email, regex).Success)
                             errorText = "Email is invalid";
                         else if (Email.ToString().Length > 30)
                             errorText = "Email maximun length is 30 charaters";
