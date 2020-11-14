@@ -1,12 +1,7 @@
 ﻿using Caliburn.Micro;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using System.Xml.Linq;
-using System.Xml.Serialization;
 using WpfApplication1.Models;
 using WpfApplication1.Service;
 
@@ -32,7 +27,10 @@ namespace WpfApplication1.ViewModels
         public BindableCollection<StudentModel> StudentList
         {
             get { return _studentList; }
-            set { _studentList = value; NotifyOfPropertyChange(() => StudentList);
+            set
+            {
+                _studentList = value;
+                NotifyOfPropertyChange(() => StudentList);
             }
         }
 
@@ -80,7 +78,11 @@ namespace WpfApplication1.ViewModels
         public void SearchButton(object o)
         {
             StudentList.Clear();
-            var result = StudentService.SearchStudent(new StudentSearchCriteria { SearchText = SearchBox, ClassName = SelectedClass });
+            var result = StudentService.SearchStudent(new StudentSearchCriteria
+            {
+                SearchText = SearchBox,
+                ClassName = SelectedClass
+            });
             StudentList.AddRange(result);
         }
 
@@ -101,8 +103,7 @@ namespace WpfApplication1.ViewModels
             SearchBox = "";
             SelectedClass = null;
             StudentList.Where(s => s.Checked == false);
-            var resetStudentList = StudentService.SearchStudent(new StudentSearchCriteria { SearchText = "", ClassName = "" });
-            StudentList.AddRange(resetStudentList);
+            SearchButton(StudentList); //call search again to reset studentlist
         }
         
         //Load "studentdetail window" button
@@ -130,7 +131,7 @@ namespace WpfApplication1.ViewModels
                 detail.FirstName = SelectedStudent.FirstName;
                 detail.LastName = SelectedStudent.LastName;
                 detail.BirthDate = SelectedStudent.Birthdate;
-                detail.GenderConvert(SelectedStudent.Gender);
+                detail.GenderConvert(SelectedStudent.Gender); //convert a gender type string to bool
                 detail.City = SelectedStudent.City;
                 detail.Email = SelectedStudent.Email;
                 detail.Class = SelectedStudent.Class;

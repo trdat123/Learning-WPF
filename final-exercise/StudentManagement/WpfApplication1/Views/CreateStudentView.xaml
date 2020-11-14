@@ -35,10 +35,12 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+            
             <TextBlock Style="{StaticResource label}" Text="Student ID *" Grid.Column="0" Grid.Row="0"/>
             <TextBlock Style="{StaticResource label}" Text="First Name *" Grid.Column="0" Grid.Row="1"/>
             <TextBlock Style="{StaticResource label}" Text="Last Name *" Grid.Column="0" Grid.Row="2"/>
             <TextBlock Style="{StaticResource label}" Text="Birthdate *" Grid.Column="0" Grid.Row="3"/>
+            
             <TextBox 
                 Text="{Binding Path=StudentId, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
                 ToolTip="{Binding ErrorCollection[StudentId]}"                     
@@ -64,7 +66,9 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            
             <TextBlock Style="{StaticResource label}" Text="Gender *" Grid.Column="0"/>
+            
             <RadioButton
                 GroupName="Gender"
                 IsChecked="{Binding Path=BoolGender}" 
@@ -87,9 +91,11 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+            
             <TextBlock Style="{StaticResource label}" Text="City *" Grid.Column="0" Grid.Row="0"/>
             <TextBlock Style="{StaticResource label}" Text="Email *" Grid.Column="0" Grid.Row="1"/>
             <TextBlock Style="{StaticResource label}" Text="Class *" Grid.Column="0" Grid.Row="2"/>
+            
             <TextBox 
                 Text="{Binding Path=City, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
                 ToolTip="{Binding ErrorCollection[City]}" 
@@ -106,13 +112,14 @@
             </ComboBox>
         </Grid>
 
-        <!-- View, Save, Cancel button -->
+        <!-- Save, Cancel button -->
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1.5*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            
             <Button x:Name="SaveButton" Content="Save" Grid.Column="1"/>
             <Button x:Name="CancelButton" Content="Cancel" Grid.Column="2"/>
         </Grid>

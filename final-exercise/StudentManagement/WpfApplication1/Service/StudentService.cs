@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using WpfApplication1.Models;
 using Caliburn.Micro;
-using System.Xml;
 
 namespace WpfApplication1.Service
 {
